@@ -1,0 +1,7 @@
+.git
+.github
+test/
+cache/
+coverage/
+node_modules/
+dist/
