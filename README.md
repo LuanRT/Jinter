@@ -11,7 +11,7 @@
 
 <div align="center">
 
-  [![Tests](https://github.com/LuanRT/Jinter/actions/workflows/node.js.yml/badge.svg)][actions]
+  [![Tests](https://github.com/LuanRT/Jinter/actions/workflows/node.js.yml/badge.svg?branch=main)][actions]
   [![Say thanks](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)][say-thanks]
 
 </div>
