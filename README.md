@@ -60,7 +60,7 @@ jinter.visitor.on('myFn', (node: any, visitor: Visitor) => {
 jinter.interpret();
 ```
 
-More examples are available in the [tests](/test) & [examples](/examples) folders.
+More examples are available in the [`test`](/test) & [`examples`](/examples) folders.
 
 ## License
 Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License.
