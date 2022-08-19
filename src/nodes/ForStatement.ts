@@ -32,6 +32,9 @@ export default class ForStatement {
       if (node.update) {
         visitor.visitNode(node.update);
       }
+
+      if (body)
+        return body;
     }
   }
 }

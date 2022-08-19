@@ -94,4 +94,39 @@ describe('Jinter Tests', () => {
     
     expect(jinter.scope.get('last_index')).toEqual(10);
   });
+  
+  it('should support while loops', () => {
+    const code = `
+      let num_1 = 0;
+      let num_2 = 200;
+      
+      while (num_1 < num_2) {
+        num_1++;
+      }
+    `;
+    
+    const jinter = new Jinter(code);
+    jinter.interpret();
+    
+    expect(jinter.scope.get('num_1')).toEqual(200);
+  });
+  
+  it('should support if statements', () => {
+    const code = `
+      let num_1 = 0;
+      let num_2 = 200;
+      let result;
+      
+      if (num_1 < num_2) {
+        result = 'It is smaller';
+      } else {
+        result = 'It is bigger';
+      }
+    `;
+    
+    const jinter = new Jinter(code);
+    jinter.interpret();
+    
+    expect(jinter.scope.get('result')).toBe('It is smaller');
+  });
 });

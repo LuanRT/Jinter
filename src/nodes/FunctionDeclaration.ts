@@ -13,6 +13,7 @@ export default class FunctionDeclaration {
         const param_node = visitor.visitNode(params[i]);
         visitor.scope.set(params[i].name, args[i]);
       }
+
       return visitor.visitNode(body);
     });
 

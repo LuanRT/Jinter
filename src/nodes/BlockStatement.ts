@@ -8,8 +8,17 @@ export default class BlockStatement {
       if (stmt.type === 'ReturnStatement')
         return result;
 
-      if (result === 'continue')
+      if (result === 'break' || result === 'continue')
         return result;
+
+      if (
+        (stmt.type === 'WhileStatement' ||
+        stmt.type === 'IfStatement' ||
+        stmt.type === 'ForStatement') &&
+        !!result
+      ) {
+        return result;
+      }
     }
   }
 }

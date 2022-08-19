@@ -1,5 +1,5 @@
 // This file was auto generated, do not edit.
-// See ./scripts/build-nodes-json.js
+// See ./scripts/build-nodes-map.js
 
 import { default as ArrayExpression } from './nodes/ArrayExpression';
 import { default as AssignmentExpression } from './nodes/AssignmentExpression';
@@ -14,6 +14,7 @@ import { default as ForStatement } from './nodes/ForStatement';
 import { default as FunctionDeclaration } from './nodes/FunctionDeclaration';
 import { default as FunctionExpression } from './nodes/FunctionExpression';
 import { default as Identifier } from './nodes/Identifier';
+import { default as IfStatement } from './nodes/IfStatement';
 import { default as Literal } from './nodes/Literal';
 import { default as LogicalExpression } from './nodes/LogicalExpression';
 import { default as MemberExpression } from './nodes/MemberExpression';
@@ -29,6 +30,7 @@ import { default as TryStatement } from './nodes/TryStatement';
 import { default as UnaryExpression } from './nodes/UnaryExpression';
 import { default as UpdateExpression } from './nodes/UpdateExpression';
 import { default as VariableDeclaration } from './nodes/VariableDeclaration';
+import { default as WhileStatement } from './nodes/WhileStatement';
 
 const map: Record<string, any> = {
   ArrayExpression,
@@ -44,6 +46,7 @@ const map: Record<string, any> = {
   FunctionDeclaration,
   FunctionExpression,
   Identifier,
+  IfStatement,
   Literal,
   LogicalExpression,
   MemberExpression,
@@ -58,7 +61,8 @@ const map: Record<string, any> = {
   TryStatement,
   UnaryExpression,
   UpdateExpression,
-  VariableDeclaration
+  VariableDeclaration,
+  WhileStatement
 };
 
 export default function getNode(name: string) {
