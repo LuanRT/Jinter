@@ -22,7 +22,7 @@
 
 Execute some JavaScript code:
 ```ts
-import Jinter from 'jinter';
+import Jinter from 'jintr';
 
 const code = `
   function sayHiTo(person) {

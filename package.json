@@ -1,5 +1,5 @@
 {
-  "name": "jinter",
+  "name": "jintr",
   "version": "0.1.5",
   "description": "A tiny JavaScript interpreter written in TypeScript.",
   "main": "./dist/index.js",
