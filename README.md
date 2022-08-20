@@ -22,6 +22,7 @@
 
 Execute some JavaScript code:
 ```ts
+// const Jinter = require('jintr').default;
 import Jinter from 'jintr';
 
 const code = `
