@@ -6,7 +6,7 @@ export default class IfStatement {
       const consequent = visitor.visitNode(node.consequent);
       return consequent;
     }
-    
+
     if (node.alternate) {
       const alternate = visitor.visitNode(node.alternate);
       return alternate;
