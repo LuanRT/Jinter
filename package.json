@@ -1,6 +1,6 @@
 {
   "name": "jinter",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "A tiny JavaScript interpreter written in TypeScript.",
   "main": "./dist/index.js",
   "types": "./dist",
@@ -38,5 +38,9 @@
   },
   "dependencies": {
     "acorn": "^8.8.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/LuanRT/Jinter/issues"
+  },
+  "homepage": "https://github.com/LuanRT/Jinter#readme"
 }
