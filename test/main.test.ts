@@ -82,17 +82,21 @@ describe('Jinter Tests', () => {
   
   it('should support for loops', () => {
     const code = `
-      let last_index = 0;
-      
-      for (let i = 0; i <= 10; i++) {
-        last_index = i;
+      function run() {
+        for (let i = 0; i < 100; i++) {
+          if (i === 50) {
+            return i;
+          }
+        }
       }
+      
+      run();
     `;
     
     const jinter = new Jinter(code);
-    jinter.interpret();
+    const result = jinter.interpret();
     
-    expect(jinter.scope.get('last_index')).toEqual(10);
+    expect(result).toEqual(50);
   });
   
   it('should support while loops', () => {
