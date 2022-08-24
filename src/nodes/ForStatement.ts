@@ -33,8 +33,9 @@ export default class ForStatement {
         visitor.visitNode(node.update);
       }
 
-      if (body)
+      if (body && node.body.type !== 'ExpressionStatement') {
         return body;
+      }
     }
   }
 }
