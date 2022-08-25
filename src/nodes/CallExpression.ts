@@ -62,7 +62,7 @@ export default class CallExpression {
         const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
         const arr = visitor.visitNode(node.callee.object);
 
-        // Set forEach's visitorArg
+        // Set forEach's “this” arg
         if (args.length > 1) {
           visitor.scope.set('_this', args.slice(-1)[0]);
         }
