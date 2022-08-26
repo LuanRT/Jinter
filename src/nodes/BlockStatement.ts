@@ -14,7 +14,8 @@ export default class BlockStatement {
       if (
         (stmt.type === 'WhileStatement' ||
         stmt.type === 'IfStatement' ||
-        stmt.type === 'ForStatement') &&
+        stmt.type === 'ForStatement' ||
+        stmt.type === 'TryStatement') &&
         !!result
       ) {
         return result;

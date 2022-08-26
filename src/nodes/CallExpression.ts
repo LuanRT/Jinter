@@ -2,8 +2,18 @@ import Visitor from '../visitor';
 
 export default class CallExpression {
   static visit(node: any, visitor: Visitor) {
+    const obj_name = node.callee.object?.name;
     const fn_name = node.callee.name || node.callee.property?.name;
 
+    // Obj.fn(...);
+    if (visitor.listeners[obj_name]) {
+      const cb = visitor.listeners[obj_name](node, visitor);
+      if (cb !== 'proceed') {
+        return cb;
+      }
+    }
+
+    // ?.fn(...);
     if (visitor.listeners[fn_name]) {
       const cb = visitor.listeners[fn_name](node, visitor);
       if (cb !== 'proceed') {
@@ -92,6 +102,12 @@ export default class CallExpression {
       throw new Error(`${callee} is not a function`);
     } else {
       const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
+
+      if (callee.toString().includes('[native code]')) {
+        const obj = visitor.visitNode(node.callee.object);
+        return obj[node.callee.property.name]();
+      }
+
       return callee(args);
     }
   }
