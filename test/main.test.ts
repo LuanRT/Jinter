@@ -1,6 +1,54 @@
 import Jinter from '..';
 
 describe('Jinter Tests', () => { 
+  it('should support the "in" operator', () => {
+    const code = `
+      const obj = { a: 1, b: 2 };
+      const result = 'a' in obj;
+    `;
+    const jinter = new Jinter(code);
+    jinter.interpret();
+
+    const result = jinter.scope.get('result');
+    expect(result).toBeTruthy();
+  });
+
+  it('should support the "instanceof" operator', () => {
+    const code = `
+      const the_date = new Date('1969-07-20');
+      const result = the_date instanceof Date;
+    `;
+
+    const jinter = new Jinter(code);
+    jinter.interpret();
+
+    const result = jinter.scope.get('result');
+    expect(result).toBeTruthy();
+  });
+
+  it('should support the "typeof" operator', () => {
+    const code = `
+      const result = typeof 1;
+    `;
+
+    const jinter = new Jinter(code);
+    jinter.interpret();
+
+    const result = jinter.scope.get('result');
+    expect(result).toBe('number');
+  });
+
+  it('should support the "void" operator', () => {
+    const code = `
+      const result = void 1;
+    `;
+
+    const jinter = new Jinter(code);
+    jinter.interpret();
+
+    expect(jinter.scope.get('result')).toBeUndefined();
+  });
+
   it('should define variables', () => {
     const code = `
       const greeting = 'Hi there!';
