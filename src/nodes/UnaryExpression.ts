@@ -18,7 +18,7 @@ export default class UnaryExpression {
         return typeof arg;
       }
       default:
-        console.warn('Unsupported operator: ', operator);
+        console.warn('Unsupported unary operator: ', operator);
     }
   }
 }
