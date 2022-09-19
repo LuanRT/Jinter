@@ -13,6 +13,10 @@ export default class UnaryExpression {
         visitor.visitNode(node.argument);
         return undefined;
       }
+      case 'typeof': {
+        const arg = visitor.visitNode(node.argument);
+        return typeof arg;
+      }
       default:
         console.warn('Unsupported operator: ', operator);
     }
