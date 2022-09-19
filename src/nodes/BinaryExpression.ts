@@ -34,6 +34,8 @@ export default class BinaryExpression {
         return left_node << right_node;
       case '>>':
         return left_node >> right_node;
+      case '>>>':
+	return left_node >>> right_node;
       case '>=':
         return left_node >= right_node;
       case '<=':
