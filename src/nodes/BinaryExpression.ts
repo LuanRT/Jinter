@@ -45,6 +45,8 @@ export default class BinaryExpression {
       // Rational operators
       case 'in':
         return left_node in right_node;
+      case 'instanceof':
+        return left_node instanceof right_node;
       default:
         console.warn('Unsupported binary operator: ', operator);
     }
