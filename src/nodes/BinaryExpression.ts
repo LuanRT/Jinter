@@ -44,6 +44,8 @@ export default class BinaryExpression {
         return left_node | right_node;
       case '&':
         return left_node & right_node;
+      case '^':
+        return left_node ^ right_node;
       // Rational operators
       case 'in':
         return left_node in right_node;

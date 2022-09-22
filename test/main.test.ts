@@ -46,7 +46,20 @@ describe('Jinter Tests', () => {
     const jinter = new Jinter(code);
     jinter.interpret();
 
-    expect(jinter.scope.get('result')).toBeUndefined();
+    const result = jinter.scope.get('result');
+    expect(result).toBeUndefined();
+  });
+
+  it('should support the "^" operator', () => {
+    const code = `
+      const result = 2 ^ 3;
+    `;
+
+    const jinter = new Jinter(code);
+    jinter.interpret();
+
+    const result = jinter.scope.get('result');
+    expect(result).toBe(1);
   });
 
   it('should define variables', () => {
