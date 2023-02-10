@@ -1,13 +1,9 @@
 [actions]: https://github.com/LuanRT/Jinter/actions
 [say-thanks]: https://saythanks.io/to/LuanRT
 
-<h1 align=center>
-  Jinter
-</h1>
+<h1 align=center>Jinter</h1>
 
-<p align=center>
-   <i>A tiny JavaScript interpreter written in TypeScript</i>
-</p>
+<p align=center>A tiny JavaScript interpreter written in TypeScript</p>
 
 <div align="center">
 
@@ -37,7 +33,7 @@ const jinter = new Jinter(code);
 jinter.interpret();
 ```
 ---
-Inject your own functions and variables into the interpreter;
+Inject your own functions and variables into the interpreter:
 ```ts
 // ...
 
@@ -61,7 +57,7 @@ jinter.visitor.on('myFn', (node: any, visitor: Visitor) => {
 jinter.interpret();
 ```
 
-More examples are available in the [`test`](/test) & [`examples`](/examples) folders.
+For more examples see [`/test`](https://github.com/LuanRT/Jinter/tree/main/test) and [`/examples`](https://github.com/LuanRT/Jinter/tree/main/examples).
 
 ## License
 Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License.
