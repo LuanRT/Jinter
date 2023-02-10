@@ -1,6 +1,7 @@
 import Jinter from '..';
+import fs from 'fs';
 
-describe('Jinter Tests', () => { 
+describe('Jinter Tests', () => {
   describe('Logical Expressions', () => {
     it('should support logical AND', () => {
       const code = `
@@ -438,122 +439,147 @@ describe('Jinter Tests', () => {
     });
   });
 
+  describe('General', () => {
 
-  it('should define variables', () => {
-    const code = `
-      const greeting = 'Hi there!';
-      let num = 24;
-    `;
-    
-    const jinter = new Jinter(code);
-    jinter.interpret();
-    
-    expect(jinter.scope.has('greeting')).toBeTruthy();
-    expect(jinter.scope.has('num')).toBeTruthy();
-  });
-  
-  it('should define functions', () => {
-    const code = `
-      function fn(arg) { return arg; }
-    `;
-    
-    const jinter = new Jinter(code);
-    jinter.interpret();
-    
-    expect(jinter.scope.has('fn')).toBeTruthy();
-  });
-  
-  it('should call functions', () => {
-    const code = `
-      function greet(person) {
-        print('Hey there ' + person + '!'); 
-      }
-      
-      greet('Jacob');
-    `
-    
-    const jinter = new Jinter(code);
-    
-    jinter.visitor.on('print', (node: any, visitor: any) => {
-      const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
-      expect(args.includes('Hey there Jacob!')).toBeTruthy();
-      return;
+    it('should define variables', () => {
+      const code = `
+        const greeting = 'Hi there!';
+        let num = 24;
+      `;
+
+      const jinter = new Jinter(code);
+      jinter.interpret();
+
+      expect(jinter.scope.has('greeting')).toBeTruthy();
+      expect(jinter.scope.has('num')).toBeTruthy();
     });
-    
-    jinter.interpret();
-  });
-  
-  it('should create objects', () => {
-    const code = `
-      const myobj = {
-        level_1: {
-          prop: 1,
-          level_2: {
-            prop: 2
+
+    it('should define functions', () => {
+      const code = `
+        function fn(arg) { return arg; }
+      `;
+
+      const jinter = new Jinter(code);
+      jinter.interpret();
+
+      expect(jinter.scope.has('fn')).toBeTruthy();
+    });
+
+    it('should call functions', () => {
+      const code = `
+        function greet(person) {
+          print('Hey there ' + person + '!'); 
+        }
+      
+        greet('Jacob');
+      `
+
+      const jinter = new Jinter(code);
+
+      jinter.visitor.on('print', (node: any, visitor: any) => {
+        const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
+        expect(args.includes('Hey there Jacob!')).toBeTruthy();
+        return;
+      });
+
+      jinter.interpret();
+    });
+
+    it('should create objects', () => {
+      const code = `
+        const myobj = {
+          level_1: {
+            prop: 1,
+            level_2: {
+              prop: 2
+           }
           }
         }
-      }
       
-      const comparison = myobj.level_1.prop === myobj.level_2.prop;
-    `;
-    
-    const jinter = new Jinter(code);
-    jinter.interpret();
-    
-    expect(jinter.scope.get('comparison')).toBeFalsy();
-  });
-  
-  it('should support for loops', () => {
-    const code = `
-      function run() {
-        for (let i = 0; i < 100; i++) {
-          if (i === 50) {
-            return i;
+        const comparison = myobj.level_1.prop === myobj.level_2.prop;
+      `;
+
+      const jinter = new Jinter(code);
+      jinter.interpret();
+
+      expect(jinter.scope.get('comparison')).toBeFalsy();
+    });
+
+    it('should support for loops', () => {
+      const code = `
+        function run() {
+          for (let i = 0; i < 100; i++) {
+            if (i === 50) {
+              return i;
+            }
           }
         }
-      }
       
-      run();
-    `;
-    
-    const jinter = new Jinter(code);
-    const result = jinter.interpret();
-    
-    expect(result).toEqual(50);
-  });
-  
-  it('should support while loops', () => {
-    const code = `
-      let num_1 = 0;
-      let num_2 = 200;
+        run();
+      `;
+
+      const jinter = new Jinter(code);
+      const result = jinter.interpret();
+
+      expect(result).toEqual(50);
+    });
+
+    it('should support while loops', () => {
+      const code = `
+        let num_1 = 0;
+        let num_2 = 200;
+        
+        while (num_1 < num_2) {
+          num_1++;
+        }
+      `;
+
+      const jinter = new Jinter(code);
+      jinter.interpret();
+
+      expect(jinter.scope.get('num_1')).toEqual(200);
+    });
+
+    it('should support if statements', () => {
+      const code = `
+        let num_1 = 0;
+        let num_2 = 200;
+        let result;
       
-      while (num_1 < num_2) {
-        num_1++;
-      }
-    `;
+        if (num_1 < num_2) {
+          result = 'It is smaller';
+        } else {
+          result = 'It is bigger';
+        }
+      `;
+
+      const jinter = new Jinter(code);
+      jinter.interpret();
+
+      expect(jinter.scope.get('result')).toBe('It is smaller');
+    });
+
+    it('should support arrow functions', () => {
+      const code = `
+        const fn = (arg) => arg;
+        fn('hello');
+      `;
+
+      const jinter = new Jinter(code);
+      const result = jinter.interpret();
+
+      expect(result).toBe('hello');
+    });
+
+    it('should interpret a small program', async () => {
+      const nsig_code = fs.readFileSync('./examples/test-code.js').toString();
+
+      const jinter = new Jinter(nsig_code);
+      jinter.scope.set('ntoken', 'vPIcacaohWtfY_');
     
-    const jinter = new Jinter(code);
-    jinter.interpret();
-    
-    expect(jinter.scope.get('num_1')).toEqual(200);
-  });
-  
-  it('should support if statements', () => {
-    const code = `
-      let num_1 = 0;
-      let num_2 = 200;
-      let result;
-      
-      if (num_1 < num_2) {
-        result = 'It is smaller';
-      } else {
-        result = 'It is bigger';
-      }
-    `;
-    
-    const jinter = new Jinter(code);
-    jinter.interpret();
-    
-    expect(jinter.scope.get('result')).toBe('It is smaller');
+      const result = jinter.interpret();
+
+      expect(result).toBe('-pK0vFvet_mXoA');
+    });
   });
 });

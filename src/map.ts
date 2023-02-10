@@ -2,6 +2,7 @@
 // See ./scripts/build-nodes-map.js
 
 import { default as ArrayExpression } from './nodes/ArrayExpression';
+import { default as ArrowFunctionExpression } from './nodes/ArrowFunctionExpression';
 import { default as AssignmentExpression } from './nodes/AssignmentExpression';
 import { default as BinaryExpression } from './nodes/BinaryExpression';
 import { default as BlockStatement } from './nodes/BlockStatement';
@@ -35,6 +36,7 @@ import { default as WhileStatement } from './nodes/WhileStatement';
 
 const map: Record<string, any> = {
   ArrayExpression,
+  ArrowFunctionExpression,
   AssignmentExpression,
   BinaryExpression,
   BlockStatement,

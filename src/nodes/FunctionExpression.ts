@@ -1,10 +1,9 @@
 import Visitor from '../visitor';
 import type ESTree from 'estree';
+import { namedFunction } from '../utils';
 
 export default class FunctionExpression {
   static visit(node: ESTree.FunctionExpression, visitor: Visitor) {
-    const namedFunction = (name: string, fn: Function) => Object.defineProperty(fn, 'name', { value: name });
-
     const { params, body } = node;
 
     const fn = namedFunction('anonymous function', (args: any[]) => {

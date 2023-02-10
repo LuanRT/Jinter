@@ -1,0 +1,1 @@
+export const namedFunction = (name: string, fn: Function) => Object.defineProperty(fn, 'name', { value: name });
