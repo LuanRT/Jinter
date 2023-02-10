@@ -33,6 +33,7 @@ export default class CallExpression {
       if (Builtins.has(node, visitor)) {
         return Builtins.execute(node, visitor);
       }
+
       const obj = visitor.visitNode(node.callee.object);
       const prop = node.callee.computed ? visitor.visitNode(node.callee.property) : visitor.getName(node.callee.property);
       const args = node.arguments.map((arg) => visitor.visitNode(arg));
@@ -42,7 +43,7 @@ export default class CallExpression {
 
       if (obj[prop].toString().includes('[native code]'))
         return obj[prop](...args);
-      
+
       return obj[prop](args);
     }
 
