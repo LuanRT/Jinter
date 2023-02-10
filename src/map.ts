@@ -2,6 +2,7 @@
 // See ./scripts/build-nodes-map.js
 
 import { default as ArrayExpression } from './nodes/ArrayExpression';
+import { default as ArrowFunctionExpression } from './nodes/ArrowFunctionExpression';
 import { default as AssignmentExpression } from './nodes/AssignmentExpression';
 import { default as BinaryExpression } from './nodes/BinaryExpression';
 import { default as BlockStatement } from './nodes/BlockStatement';
@@ -20,6 +21,7 @@ import { default as LogicalExpression } from './nodes/LogicalExpression';
 import { default as MemberExpression } from './nodes/MemberExpression';
 import { default as NewExpression } from './nodes/NewExpression';
 import { default as ObjectExpression } from './nodes/ObjectExpression';
+import { default as Property } from './nodes/Property';
 import { default as ReturnStatement } from './nodes/ReturnStatement';
 import { default as SequenceExpression } from './nodes/SequenceExpression';
 import { default as SwitchCase } from './nodes/SwitchCase';
@@ -34,6 +36,7 @@ import { default as WhileStatement } from './nodes/WhileStatement';
 
 const map: Record<string, any> = {
   ArrayExpression,
+  ArrowFunctionExpression,
   AssignmentExpression,
   BinaryExpression,
   BlockStatement,
@@ -52,6 +55,7 @@ const map: Record<string, any> = {
   MemberExpression,
   NewExpression,
   ObjectExpression,
+  Property,
   ReturnStatement,
   SequenceExpression,
   SwitchCase,

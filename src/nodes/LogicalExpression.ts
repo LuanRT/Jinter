@@ -1,7 +1,8 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class LogicalExpression {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.LogicalExpression, visitor: Visitor) {
     const operator: string = node.operator;
 
     switch (operator) {
@@ -15,8 +16,10 @@ export default class LogicalExpression {
         const left_side = visitor.visitNode(node.left);
         return left_side || visitor.visitNode(node.right);
       }
-      default:
-        throw Error(`Unsupported logical operator: ${operator}`);
+      case '??': {
+        const left_side = visitor.visitNode(node.left);
+        return left_side ?? visitor.visitNode(node.right);
+      }
     }
   }
 }

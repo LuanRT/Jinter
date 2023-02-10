@@ -1,16 +1,26 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
+import { namedFunction } from '../utils';
 
 export default class FunctionExpression {
-  static visit(node: any, visitor: Visitor) {
-    const nameFunction = (name: string, fn: any) => Object.defineProperty(fn, 'name', { value: name });
-
+  static visit(node: ESTree.FunctionExpression, visitor: Visitor) {
     const { params, body } = node;
 
-    const fn = nameFunction('anonymous function', (args: any[]) => {
-      for (let i = 0; i < params.length; i++) {
-        const param_node = visitor.visitNode(params[i]);
-        visitor.scope.set(params[i].name, args[i]);
+    const fn = namedFunction('anonymous function', (args: any[]) => {
+      let index = 0;
+
+      for (const param of params) {
+        visitor.visitNode(param);
+
+        if (param.type === 'Identifier') {
+          visitor.scope.set(param.name, args[index]);
+        } else {
+          console.warn('Unhandled param type', param.type);
+        }
+
+        index++;
       }
+
       return visitor.visitNode(body);
     });
 

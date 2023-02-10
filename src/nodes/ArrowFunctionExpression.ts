@@ -2,14 +2,12 @@ import Visitor from '../visitor';
 import type ESTree from 'estree';
 import { namedFunction } from '../utils';
 
-export default class FunctionDeclaration {
-  static visit(node: ESTree.FunctionDeclaration, visitor: Visitor) {
+export default class ArrowFunctionExpression {
+  static visit(node: ESTree.ArrowFunctionExpression, visitor: Visitor) {
     const { params, body } = node;
 
-    const id = visitor.visitNode(node.id);
-
     // @TODO: Handle other types of params and pass them directly to next node instead of saving them in the global scope
-    const fn = namedFunction(id, (args: any[]) => {
+    const fn = namedFunction('anonymous function', (args: any[]) => {
       let index = 0;
 
       for (const param of params) {
@@ -27,6 +25,6 @@ export default class FunctionDeclaration {
       return visitor.visitNode(body);
     });
 
-    visitor.scope.set(id, fn);
+    return fn;
   }
 }

@@ -1,13 +1,16 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class ObjectExpression {
-  static visit(node: any, visitor: Visitor) {
-    const result: { [key: string]: any } = {};
+  static visit(node: ESTree.ObjectExpression, visitor: Visitor) {
+    let result: { [key: string]: any } = {};
 
     for (const prop of node.properties) {
-      const key: string = visitor.visitNode(prop.key);
-      const value = visitor.visitNode(prop.value);
-      result[key] = value;
+      if (prop.type === 'Property') {
+        result = { ...result, ...visitor.visitNode(prop) };
+      } else {
+        throw new Error(`Unhandled property type: ${prop.type}`);
+      }
     }
 
     return result;
