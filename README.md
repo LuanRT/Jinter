@@ -38,14 +38,18 @@ Inject your own functions and variables into the interpreter:
 // ...
 
 jinter.visitor.on('println', (node, visitor) => {
-  const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
-  return console.log(...args);
+  if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
+    const args = node.arguments.map((arg) => visitor.visitNode(arg));
+    return console.log(...args);
+  }
 });
 
 // Ex: str.toArray();
 jinter.visitor.on('toArray', (node, visitor) => {
-  const obj = visitor.visitNode(node.callee.object);
-  return obj.split('');      
+  if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
+    const obj = visitor.visitNode(node.callee.object);
+    return obj.split('');    
+  }  
 });
 
 // Or you can just intercept access to specific nodes;
