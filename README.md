@@ -37,19 +37,19 @@ Inject your own functions and variables into the interpreter:
 ```ts
 // ...
 
-jinter.visitor.on('println', (node: any, visitor: Visitor) => {
+jinter.visitor.on('println', (node, visitor) => {
   const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
   return console.log(...args);
 });
 
 // Ex: str.toArray();
-jinter.visitor.on('toArray', (node: any, visitor: Visitor) => {
+jinter.visitor.on('toArray', (node, visitor) => {
   const obj = visitor.visitNode(node.callee.object);
   return obj.split('');      
 });
 
 // Or you can just intercept access to specific nodes;
-jinter.visitor.on('myFn', (node: any, visitor: Visitor) => {
+jinter.visitor.on('myFn', (node, visitor) => {
   console.info('MyFn node just got accessed:', node);
   return 'proceed'; // tells the interpreter to continue execution 
 });
