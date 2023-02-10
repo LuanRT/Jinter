@@ -40,13 +40,12 @@ export default class CallExpression {
       if (typeof obj[prop] !== 'function')
         this.#throwError(node, visitor);
 
-      if (obj[prop].toString().includes('[native code]')) {
+      if (obj[prop].toString().includes('[native code]'))
         return obj[prop](...args);
-      }
+      
       return obj[prop](args);
-
-
     }
+
     const fn = visitor.visitNode(node.callee);
     const args = node.arguments.map((arg) => visitor.visitNode(arg));
 
@@ -54,7 +53,6 @@ export default class CallExpression {
       this.#throwError(node, visitor);
 
     return fn(args);
-
   }
 
   static #throwError(node: ESTree.CallExpression, visitor: Visitor) {
