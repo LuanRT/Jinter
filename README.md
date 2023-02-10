@@ -3,7 +3,7 @@
 
 <h1 align=center>Jinter</h1>
 
-<p align=center>A tiny JavaScript interpreter written in TypeScript</p>
+<p align=center>A tiny JavaScript interpreter written in TypeScript
 
 <div align="center">
 
@@ -12,7 +12,7 @@
 
 </div>
 
-> **Note**: This project is experimental and not all JavaScript features are implemented! [^1]
+> **Note**: This project was originally developed for use in [YouTube.js](https://github.com/LuanRT/YouTube.js).
 
 ### Usage
 
@@ -65,9 +65,6 @@ For more examples see [`/test`](https://github.com/LuanRT/Jinter/tree/main/test)
 
 ## License
 Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License.
-
-<!-- Footnotes -->
-[^1]: This project was originally developed for use in [YouTube.js](https://github.com/LuanRT/YouTube.js).
 
 <p align="right">
   (<a href="#top">back to top</a>)
