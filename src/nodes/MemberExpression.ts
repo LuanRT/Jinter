@@ -1,24 +1,22 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class MemberExpression {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.MemberExpression, visitor: Visitor) {
     const { object, property, computed } = node;
 
     const obj = visitor.visitNode(object);
-    const prop = computed ? visitor.visitNode(property) : property.name;
+    const prop = computed ? visitor.visitNode(property) : visitor.getName(property);
 
-    // Polyfill for .length
-    if (prop === 'length') {
-      return obj.length;
-    }
-
-    if (visitor.listeners[prop]) {
-      const cb = visitor.listeners[prop](node, visitor);
-      if (cb !== 'proceed') {
-        return cb;
+    if (prop !== undefined || prop !== null) {
+      if (visitor.listeners[prop]) {
+        const cb = visitor.listeners[prop](node, visitor);
+        if (cb !== 'proceed') {
+          return cb;
+        }
       }
-    }
 
-    return obj?.[prop];
+      return obj?.[prop];
+    }
   }
 }

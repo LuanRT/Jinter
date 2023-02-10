@@ -1,7 +1,8 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class SequenceExpression {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.SequenceExpression, visitor: Visitor) {
     let result;
 
     for (const expression of node.expressions) {

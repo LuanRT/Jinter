@@ -1,10 +1,9 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class ConditionalExpression {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.ConditionalExpression, visitor: Visitor) {
     const { test, consequent, alternate } = node;
-
-    const operator = test.operator;
 
     const check = visitor.visitNode(test);
 

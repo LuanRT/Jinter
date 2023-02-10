@@ -1,7 +1,8 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class ForStatement {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.ForStatement, visitor: Visitor) {
     if (node.init) {
       visitor.visitNode(node.init);
     }

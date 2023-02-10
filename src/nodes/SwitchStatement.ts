@@ -1,7 +1,8 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class SwitchStatement {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.SwitchStatement, visitor: Visitor) {
     const discriminant = visitor.visitNode(node.discriminant);
 
     let matched = false;

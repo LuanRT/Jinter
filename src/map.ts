@@ -20,6 +20,7 @@ import { default as LogicalExpression } from './nodes/LogicalExpression';
 import { default as MemberExpression } from './nodes/MemberExpression';
 import { default as NewExpression } from './nodes/NewExpression';
 import { default as ObjectExpression } from './nodes/ObjectExpression';
+import { default as Property } from './nodes/Property';
 import { default as ReturnStatement } from './nodes/ReturnStatement';
 import { default as SequenceExpression } from './nodes/SequenceExpression';
 import { default as SwitchCase } from './nodes/SwitchCase';
@@ -52,6 +53,7 @@ const map: Record<string, any> = {
   MemberExpression,
   NewExpression,
   ObjectExpression,
+  Property,
   ReturnStatement,
   SequenceExpression,
   SwitchCase,

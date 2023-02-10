@@ -1,7 +1,8 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class BlockStatement {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.BlockStatement, visitor: Visitor) {
     for (const stmt of node.body) {
       const result = visitor.visitNode(stmt);
 

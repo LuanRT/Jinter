@@ -1,16 +1,23 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class VariableDeclaration {
-  static visit(node: any, visitor: Visitor) {
-    node.declarations.forEach((declar: any) => {
+  static visit(node: ESTree.VariableDeclaration, visitor: Visitor) {
+    // @TODO: Parse kind
+    node.declarations.forEach((declar) => {
       const { id, init } = declar;
-      const key = id.name;
+
+      const key = visitor.getName(id);
 
       const value = init
         ? visitor.visitNode(init)
         : undefined;
 
-      visitor.scope.set(key, value);
+      if (key)
+        visitor.scope.set(key, value);
+
+      if (typeof value === 'object' && value !== null)
+        visitor.scope.set('_this', value);
     });
   }
 }

@@ -1,17 +1,28 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class FunctionDeclaration {
-  static visit(node: any, visitor: Visitor) {
-    const nameFunction = (name: string, fn: any) => Object.defineProperty(fn, 'name', { value: name });
+  static visit(node: ESTree.FunctionDeclaration, visitor: Visitor) {
+    const namedFunction = (name: string, fn: Function) => Object.defineProperty(fn, 'name', { value: name });
 
     const { params, body } = node;
 
     const id = visitor.visitNode(node.id);
 
-    const fn = nameFunction(id, (args: any[]) => {
-      for (let i = 0; i < params.length; i++) {
-        const param_node = visitor.visitNode(params[i]);
-        visitor.scope.set(params[i].name, args[i]);
+    // @TODO: Handle other types of params and pass them directly to next node instead of saving them in the global scope
+    const fn = namedFunction(id, (args: any[]) => {
+      let index = 0;
+
+      for (const param of params) {
+        visitor.visitNode(param);
+
+        if (param.type === 'Identifier') {
+          visitor.scope.set(param.name, args[index]);
+        } else {
+          console.warn('Unhandled param type', param.type);
+        }
+
+        index++;
       }
 
       return visitor.visitNode(body);

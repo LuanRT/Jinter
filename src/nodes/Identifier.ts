@@ -1,7 +1,8 @@
 import Visitor from '../visitor';
+import type ESTree from 'estree';
 
 export default class Identifier {
-  static visit(node: any, visitor: Visitor) {
+  static visit(node: ESTree.Identifier, visitor: Visitor) {
     if (visitor.listeners[node.name]) {
       const cb = visitor.listeners[node.name](node, visitor);
       if (cb !== 'proceed') {
