@@ -1,13 +1,13 @@
-name: lint
+name: test
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  
+
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,4 +15,4 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm run lint
+      - run: npm run test
