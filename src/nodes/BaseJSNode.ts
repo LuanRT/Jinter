@@ -9,6 +9,6 @@ export default class BaseJSNode<T extends ESTree.BaseNode = ESTree.BaseNode> {
     this.node = node;
     this.visitor = visitor;
   }
-  
-  run(): any {}
+
+  run(): any { /* Placeholder */ }
 }

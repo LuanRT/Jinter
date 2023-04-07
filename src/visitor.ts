@@ -65,7 +65,7 @@ export default class Visitor {
     if (!node) {
       console.warn(
         '[JINTER]:', `JavaScript node "${type}" not implemented!\nIf this is causing unexpected behavior, please report it at https://github.com/LuanRT/Jinter/issues/new`
-      )
+      );
     }
 
     return node;

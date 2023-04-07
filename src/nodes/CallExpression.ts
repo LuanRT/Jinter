@@ -106,7 +106,7 @@ class Builtins {
         let index = 0;
 
         for (const element of arr) {
-          args[0]([element, index++, arr]);
+          args[0]([ element, index++, arr ]);
         }
       } else {
         console.warn('Unhandled callee type:', node.callee.type);

@@ -1,6 +1,6 @@
-import type Visitor from "../visitor.js";
+import type Visitor from '../visitor.js';
 import type ESTree from 'estree';
-import BaseJSNode from "./BaseJSNode.js";
+import BaseJSNode from './BaseJSNode.js';
 
 export default class AssignmentExpression extends BaseJSNode<ESTree.AssignmentExpression> {
   public run() {

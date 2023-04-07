@@ -23,7 +23,7 @@ export default class FunctionExpression extends BaseJSNode<ESTree.FunctionExpres
 
       return this.visitor.visitNode(body);
     });
-  
+
     return fn;
   }
 }
