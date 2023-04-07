@@ -3,30 +3,30 @@
   "version": "0.4.1",
   "description": "A tiny JavaScript interpreter written in TypeScript.",
   "type": "module",
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/src/index.d.ts"
+        "./dist/index.d.ts"
       ]
     }
   },
   "exports": {
     ".": {
       "node": {
-        "import": "./dist/src/index.js",
+        "import": "./dist/index.js",
         "require": "./bundle/node.cjs"
       },
-      "default": "./dist/src/index.js",
+      "default": "./dist/index.js",
       "browser": "./bundle/browser.js",
-      "types": "./dist/src/index.d.ts"
+      "types": "./dist/index.d.ts"
     },
     "./web.bundle": {
-      "types": "./dist/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "default": "./bundle/browser.js"
     },
     "./web.bundle.min": {
-      "types": "./dist/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "default": "./bundle/browser.min.js"
     }
   },
@@ -37,8 +37,8 @@
     "lint:fix": "npx eslint --fix ./src/**/*.ts",
     "build:esm": "npx tsc",
     "build:nodes-map": "node ./scripts/build-nodes-map.js",
-    "bundle:node": "npx esbuild ./dist/src/index.js --bundle --outfile=./bundle/node.cjs --platform=node --target=node10 --format=cjs --sourcemap --banner:js=\"/* eslint-disable */\" --external:acorn",
-    "bundle:browser": "npx esbuild ./dist/src/index.js --bundle --outfile=./bundle/browser.js --platform=browser --target=chrome58 --format=esm --sourcemap --banner:js=\"/* eslint-disable */\"",
+    "bundle:node": "npx esbuild ./dist/index.js --bundle --outfile=./bundle/node.cjs --platform=node --target=node10 --format=cjs --sourcemap --banner:js=\"/* eslint-disable */\" --external:acorn",
+    "bundle:browser": "npx esbuild ./dist/index.js --bundle --outfile=./bundle/browser.js --platform=browser --target=chrome58 --format=esm --sourcemap --banner:js=\"/* eslint-disable */\"",
     "bundle:browser:prod": "npm run bundle:browser -- --minify --outfile=./bundle/browser.min.js",
     "prepare": "npm run build",
     "watch": "npx tsc --watch"
