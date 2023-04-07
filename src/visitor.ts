@@ -1,6 +1,7 @@
-import getNode from './map';
 import type { Node } from 'estree';
-import package_json from '../package.json';
+import BaseJSNode from './nodes/BaseJSNode.js';
+import * as Nodes from './nodes/index.js';
+import { JSNodeConstructor } from './utils/index.js';
 
 export type Listener = (node: Node, visitor: Visitor) => any;
 
@@ -13,9 +14,6 @@ export default class Visitor {
     this.ast = ast;
   }
 
-  /**
-   * Starts interpreting the program.
-   */
   public run() {
     let result;
 
@@ -27,17 +25,17 @@ export default class Visitor {
   }
 
   /**
-   * Visits given node and executes it.
+   * Visits a given node and executes it.
    */
-  public visitNode(node?: Node | null) {
+  public visitNode<T extends BaseJSNode>(node?: Node | null) {
     if (!node)
       return null;
 
-    try {
-      const target_node = getNode(node.type);
-      return target_node.visit(node, this);
-    } catch (err) {
-      this.#printError(node, err);
+    const target_node = this.#getNode<T>(node.type);
+
+    if (target_node) {
+      const instance = new target_node(node, this);
+      return instance.run();
     }
   }
 
@@ -61,9 +59,15 @@ export default class Visitor {
     this.listeners[node_name] = listener;
   }
 
-  #printError(node: Node, err: any) {
-    if (err.code === 'MODULE_NOT_FOUND') {
-      console.warn(`Node ${node.type} not found!\nThis is a bug, please report it at ${package_json.bugs.url}.`);
-    } else throw err;
+  #getNode<T extends BaseJSNode>(type: string): JSNodeConstructor<T> {
+    const node = Nodes[type as keyof typeof Nodes] as unknown as JSNodeConstructor<T>;
+
+    if (!node) {
+      console.warn(
+        '[JINTER]:', `JavaScript node "${type}" not implemented!\nIf this is causing unexpected behavior, please report it at https://github.com/LuanRT/Jinter/issues/new`
+      )
+    }
+
+    return node;
   }
 }

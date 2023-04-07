@@ -1,19 +1,19 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class TryStatement {
-  static visit(node: ESTree.TryStatement, visitor: Visitor) {
+export default class TryStatement extends BaseJSNode<ESTree.TryStatement> {
+  public run() {
     try {
-      return visitor.visitNode(node.block);
+      return this.visitor.visitNode(this.node.block);
     } catch (e) {
-      if (node.handler) {
-        if (node.handler.param && node.handler.param.type === 'Identifier') {
-          visitor.scope.set(node.handler.param.name, e);
+      if (this.node.handler) {
+        if (this.node.handler.param && this.node.handler.param.type === 'Identifier') {
+          this.visitor.scope.set(this.node.handler.param.name, e);
         }
-        return visitor.visitNode(node.handler.body);
+        return this.visitor.visitNode(this.node.handler.body);
       }
     } finally {
-      visitor.visitNode(node.finalizer);
+      this.visitor.visitNode(this.node.finalizer);
     }
   }
 }

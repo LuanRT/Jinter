@@ -1,8 +1,8 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseNode from './BaseJSNode.js';
 
-export default class ArrayExpression {
-  static visit(node: ESTree.ArrayExpression, visitor: Visitor) {
-    return node.elements.map((el) => visitor.visitNode(el));
+export default class ArrayExpression extends BaseNode<ESTree.ArrayExpression> {
+  public run() {
+    return this.node.elements.map((el) => this.visitor.visitNode(el));
   }
 }

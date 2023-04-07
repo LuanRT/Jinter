@@ -1,15 +1,15 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class ForStatement {
-  static visit(node: ESTree.ForStatement, visitor: Visitor) {
-    if (node.init) {
-      visitor.visitNode(node.init);
+export default class ForStatement extends BaseJSNode<ESTree.ForStatement> {
+  public run() {
+    if (this.node.init) {
+      this.visitor.visitNode(this.node.init);
     }
 
     const test = () => {
-      return node.test
-        ? visitor.visitNode(node.test)
+      return this.node.test
+        ? this.visitor.visitNode(this.node.test)
         : true;
     };
 
@@ -20,7 +20,7 @@ export default class ForStatement {
         break;
       }
 
-      const body = visitor.visitNode(node.body);
+      const body = this.visitor.visitNode(this.node.body);
 
       if (body === 'continue') {
         continue;
@@ -30,11 +30,11 @@ export default class ForStatement {
         break;
       }
 
-      if (node.update) {
-        visitor.visitNode(node.update);
+      if (this.node.update) {
+        this.visitor.visitNode(this.node.update);
       }
 
-      if (body && node.body.type !== 'ExpressionStatement') {
+      if (body && this.node.body.type !== 'ExpressionStatement') {
         return body;
       }
     }

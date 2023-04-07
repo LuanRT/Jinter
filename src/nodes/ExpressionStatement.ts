@@ -1,8 +1,8 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class ExpressionStatement {
-  static visit(node: ESTree.ExpressionStatement, visitor: Visitor) {
-    return visitor.visitNode(node.expression);
+export default class ExpressionStatement extends BaseJSNode<ESTree.ExpressionStatement>{
+  public run() {
+    return this.visitor.visitNode(this.node.expression);
   }
 }

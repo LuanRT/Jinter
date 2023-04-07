@@ -1,8 +1,8 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class BreakStatement {
-  static visit(_node: ESTree.BreakStatement, _visitor: Visitor) {
+export default class BreakStatement extends BaseJSNode<ESTree.BreakStatement> {
+  public run() {
     // @TODO: Parse label
     return 'break';
   }

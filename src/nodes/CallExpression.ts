@@ -1,45 +1,46 @@
-import Visitor from '../visitor';
+import type Visitor from '../visitor.js';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class CallExpression {
-  static visit(node: ESTree.CallExpression, visitor: Visitor) {
+export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
+  public run() {
     let exp_object: string | undefined;
     let exp_property: string | undefined;
 
-    if (node.callee.type === 'MemberExpression') {
-      exp_object = visitor.getName(node.callee.object);
-      exp_property = visitor.getName(node.callee.property);
-    } else if (node.callee.type === 'Identifier') {
-      exp_property = node.callee.name;
+    if (this.node.callee.type === 'MemberExpression') {
+      exp_object = this.visitor.getName(this.node.callee.object);
+      exp_property = this.visitor.getName(this.node.callee.property);
+    } else if (this.node.callee.type === 'Identifier') {
+      exp_property = this.node.callee.name;
     }
 
     // Obj.fn(...);
-    if (exp_object && visitor.listeners[exp_object]) {
-      const cb = visitor.listeners[exp_object](node, visitor);
+    if (exp_object && this.visitor.listeners[exp_object]) {
+      const cb = this.visitor.listeners[exp_object](this.node, this.visitor);
       if (cb !== 'proceed') {
         return cb;
       }
     }
 
     // ?.fn(...);
-    if (exp_property && exp_property !== 'toString' && visitor.listeners[exp_property]) {
-      const cb = visitor.listeners[exp_property](node, visitor);
+    if (exp_property && exp_property !== 'toString' && this.visitor.listeners[exp_property]) {
+      const cb = this.visitor.listeners[exp_property](this.node, this.visitor);
       if (cb !== 'proceed') {
         return cb;
       }
     }
 
-    if (node.callee.type === 'MemberExpression') {
-      if (Builtins.has(node, visitor)) {
-        return Builtins.execute(node, visitor);
+    if (this.node.callee.type === 'MemberExpression') {
+      if (Builtins.has(this.node, this.visitor)) {
+        return Builtins.execute(this.node, this.visitor);
       }
 
-      const obj = visitor.visitNode(node.callee.object);
-      const prop = node.callee.computed ? visitor.visitNode(node.callee.property) : visitor.getName(node.callee.property);
-      const args = node.arguments.map((arg) => visitor.visitNode(arg));
+      const obj = this.visitor.visitNode(this.node.callee.object);
+      const prop = this.node.callee.computed ? this.visitor.visitNode(this.node.callee.property) : this.visitor.getName(this.node.callee.property);
+      const args = this.node.arguments.map((arg) => this.visitor.visitNode(arg));
 
       if (typeof obj[prop] !== 'function')
-        this.#throwError(node, visitor);
+        this.#throwError();
 
       if (obj[prop].toString().includes('[native code]'))
         return obj[prop](...args);
@@ -47,35 +48,35 @@ export default class CallExpression {
       return obj[prop](args);
     }
 
-    const fn = visitor.visitNode(node.callee);
-    const args = node.arguments.map((arg) => visitor.visitNode(arg));
+    const fn = this.visitor.visitNode(this.node.callee);
+    const args = this.node.arguments.map((arg) => this.visitor.visitNode(arg));
 
     if (typeof fn !== 'function')
-      this.#throwError(node, visitor);
+      this.#throwError();
 
     return fn(args);
   }
 
-  static #throwError(node: ESTree.CallExpression, visitor: Visitor) {
-    if (node.callee.type === 'MemberExpression') {
-      throw new Error(`${node.callee.object.type === 'Identifier' ? node.callee.object.name : '<object>'}.${node.callee.property.type === 'Identifier' ? node.callee.property.name : '?'} is not a function`);
-    } else if (node.callee.type === 'Identifier') {
-      throw new Error(`${node.callee.name} is not a function`);
-    } else if (node.callee.type === 'SequenceExpression') {
+  #throwError() {
+    if (this.node.callee.type === 'MemberExpression') {
+      throw new Error(`${this.node.callee.object.type === 'Identifier' ? this.node.callee.object.name : '<object>'}.${this.node.callee.property.type === 'Identifier' ? this.node.callee.property.name : '?'} is not a function`);
+    } else if (this.node.callee.type === 'Identifier') {
+      throw new Error(`${this.node.callee.name} is not a function`);
+    } else if (this.node.callee.type === 'SequenceExpression') {
       const call: string[] = [];
       const items: string[] = [];
 
       call.push('(');
-      node.callee.expressions.forEach((expr) => {
+      this.node.callee.expressions.forEach((expr) => {
         if (expr.type === 'Literal') {
           items.push(expr.raw || '');
         } else if (expr.type === 'Identifier') {
           items.push(expr.name);
         } else if (expr.type === 'MemberExpression') {
           if (expr.computed) {
-            items.push(`${visitor.getName(expr.object)}[${visitor.getName(expr.property) || '...'}]`);
+            items.push(`${this.visitor.getName(expr.object)}[${this.visitor.getName(expr.property) || '...'}]`);
           } else {
-            items.push(`${visitor.getName(expr.object)}.${visitor.getName(expr.property)}`);
+            items.push(`${this.visitor.getName(expr.object)}.${this.visitor.getName(expr.property)}`);
           }
         }
       });
@@ -105,7 +106,7 @@ class Builtins {
         let index = 0;
 
         for (const element of arr) {
-          args[0]([ element, index++, arr ]);
+          args[0]([element, index++, arr]);
         }
       } else {
         console.warn('Unhandled callee type:', node.callee.type);

@@ -1,8 +1,8 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class ContinueStatement {
-  static visit(_node: ESTree.ContinueStatement, _visitor: Visitor) {
+export default class ContinueStatement extends BaseJSNode<ESTree.ContinueStatement> {
+  public run() {
     return 'continue';
   }
 }

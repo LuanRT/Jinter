@@ -1,4 +1,4 @@
-import Jinter from '..';
+import { Jinter } from '../bundle/node.cjs';
 import fs from 'fs';
 
 describe('Jinter Tests', () => {
