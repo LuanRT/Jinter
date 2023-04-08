@@ -1,10 +1,10 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class BlockStatement {
-  static visit(node: ESTree.BlockStatement, visitor: Visitor) {
-    for (const stmt of node.body) {
-      const result = visitor.visitNode(stmt);
+export default class BlockStatement extends BaseJSNode<ESTree.BlockStatement> {
+  public run() {
+    for (const stmt of this.node.body) {
+      const result = this.visitor.visitNode(stmt);
 
       if (stmt.type === 'ReturnStatement')
         return result;

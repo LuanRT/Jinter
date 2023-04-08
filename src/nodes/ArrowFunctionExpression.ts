@@ -1,20 +1,20 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
-import { namedFunction } from '../utils';
+import { namedFunction } from '../utils/index.js';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class ArrowFunctionExpression {
-  static visit(node: ESTree.ArrowFunctionExpression, visitor: Visitor) {
-    const { params, body } = node;
+export default class ArrowFunctionExpression extends BaseJSNode<ESTree.ArrowFunctionExpression> {
+  public run() {
+    const { params, body } = this.node;
 
     // @TODO: Handle other types of params and pass them directly to next node instead of saving them in the global scope
     const fn = namedFunction('anonymous function', (args: any[]) => {
       let index = 0;
 
       for (const param of params) {
-        visitor.visitNode(param);
+        this.visitor.visitNode(param);
 
         if (param.type === 'Identifier') {
-          visitor.scope.set(param.name, args[index]);
+          this.visitor.scope.set(param.name, args[index]);
         } else {
           console.warn('Unhandled param type', param.type);
         }
@@ -22,7 +22,7 @@ export default class ArrowFunctionExpression {
         index++;
       }
 
-      return visitor.visitNode(body);
+      return this.visitor.visitNode(body);
     });
 
     return fn;

@@ -1,12 +1,12 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class BinaryExpression {
-  static visit(node: ESTree.BinaryExpression, visitor: Visitor) {
-    const operator = node.operator;
+export default class BinaryExpression extends BaseJSNode<ESTree.BinaryExpression> {
+  public run() {
+    const operator = this.node.operator;
 
-    const left_node = visitor.visitNode(node.left);
-    const right_node = visitor.visitNode(node.right);
+    const left_node = this.visitor.visitNode(this.node.left);
+    const right_node = this.visitor.visitNode(this.node.right);
 
     switch (operator) {
       case '!=':

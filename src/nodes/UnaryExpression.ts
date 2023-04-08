@@ -1,42 +1,42 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class UnaryExpression {
-  static visit(node: ESTree.UnaryExpression, visitor: Visitor) {
-    const operator = node.operator;
+export default class UnaryExpression extends BaseJSNode<ESTree.UnaryExpression> {
+  public run() {
+    const operator = this.node.operator;
 
     switch (operator) {
       case '-': {
-        const arg = visitor.visitNode(node.argument);
+        const arg = this.visitor.visitNode(this.node.argument);
         return -arg;
       }
       case '+': {
-        const arg = visitor.visitNode(node.argument);
+        const arg = this.visitor.visitNode(this.node.argument);
         return +arg;
       }
       case '!': {
-        const arg = visitor.visitNode(node.argument);
+        const arg = this.visitor.visitNode(this.node.argument);
         return !arg;
       }
       case '~': {
-        const arg = visitor.visitNode(node.argument);
+        const arg = this.visitor.visitNode(this.node.argument);
         return ~arg;
       }
       case 'void': {
-        visitor.visitNode(node.argument);
+        this.visitor.visitNode(this.node.argument);
         return undefined;
       }
       case 'typeof': {
-        const arg = visitor.visitNode(node.argument);
+        const arg = this.visitor.visitNode(this.node.argument);
         return typeof arg;
       }
       case 'delete': {
-        if (node.argument.type === 'MemberExpression') {
-          const obj = visitor.visitNode(node.argument.object);
-          const prop = node.argument.computed ? visitor.visitNode(node.argument.property) : visitor.getName(node.argument.property);
+        if (this.node.argument.type === 'MemberExpression') {
+          const obj = this.visitor.visitNode(this.node.argument.object);
+          const prop = this.node.argument.computed ? this.visitor.visitNode(this.node.argument.property) : this.visitor.getName(this.node.argument.property);
           return delete obj[prop];
-        } else if (node.argument.type === 'Identifier') {
-          return visitor.scope.delete(node.argument.name);
+        } else if (this.node.argument.type === 'Identifier') {
+          return this.visitor.scope.delete(this.node.argument.name);
         }
         return true;
       }

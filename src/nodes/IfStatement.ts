@@ -1,14 +1,14 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class IfStatement {
-  static visit(node: ESTree.IfStatement, visitor: Visitor) {
-    const test = visitor.visitNode(node.test);
+export default class IfStatement extends BaseJSNode<ESTree.IfStatement> {
+  public run() {
+    const test = this.visitor.visitNode(this.node.test);
 
     if (test) {
-      return visitor.visitNode(node.consequent);
-    } else if (node.alternate) {
-      return visitor.visitNode(node.alternate);
+      return this.visitor.visitNode(this.node.consequent);
+    } else if (this.node.alternate) {
+      return this.visitor.visitNode(this.node.alternate);
     }
   }
 }

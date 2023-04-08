@@ -1,11 +1,19 @@
-import Visitor from './visitor';
+import Visitor from './visitor.js';
 import { parse } from 'acorn';
 import type { Node } from 'estree';
 
 export default class Jinter {
   #ast: Node[];
 
+  /**
+   * The node visitor. This is responsible for walking the AST and executing the nodes.
+   */
   public visitor: Visitor;
+
+
+  /**
+   * The global scope of the program.
+   */
   public scope: Map<string, any>;
 
   constructor(input: string) {
@@ -73,6 +81,10 @@ export default class Jinter {
     });
   }
 
+  /**
+   * Interprets the program.
+   * @returns The result of the last statement in the program.
+   */
   public interpret() {
     return this.visitor.run();
   }

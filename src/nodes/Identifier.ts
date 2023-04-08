@@ -1,18 +1,18 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class Identifier {
-  static visit(node: ESTree.Identifier, visitor: Visitor) {
-    if (visitor.listeners[node.name]) {
-      const cb = visitor.listeners[node.name](node, visitor);
+export default class Identifier extends BaseJSNode<ESTree.Identifier> {
+  public run() {
+    if (this.visitor.listeners[this.node.name]) {
+      const cb = this.visitor.listeners[this.node.name](this.node, this.visitor);
       if (cb !== 'proceed') {
         return cb;
       }
     }
 
-    if (visitor.scope.has(node.name))
-      return visitor.scope.get(node.name);
+    if (this.visitor.scope.has(this.node.name))
+      return this.visitor.scope.get(this.node.name);
 
-    return node.name;
+    return this.node.name;
   }
 }

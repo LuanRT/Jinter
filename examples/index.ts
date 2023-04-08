@@ -1,5 +1,5 @@
 import fs from 'fs';
-import Jinter from '../dist';
+import { Jinter } from 'jintr';
 
 const code = fs.readFileSync('./test-code.js').toString();
 

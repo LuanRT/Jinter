@@ -1,10 +1,10 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class NewExpression {
-  static visit(node: ESTree.NewExpression, visitor: Visitor) {
-    const callee = visitor.visitNode(node.callee);
-    const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
+export default class NewExpression extends BaseJSNode<ESTree.NewExpression> {
+  public run() {
+    const callee = this.visitor.visitNode(this.node.callee);
+    const args = this.node.arguments.map((arg: any) => this.visitor.visitNode(arg));
     return new callee(args);
   }
 }

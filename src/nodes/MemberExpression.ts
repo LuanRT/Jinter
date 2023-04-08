@@ -1,16 +1,16 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class MemberExpression {
-  static visit(node: ESTree.MemberExpression, visitor: Visitor) {
-    const { object, property, computed } = node;
+export default class MemberExpression extends BaseJSNode<ESTree.MemberExpression> {
+  public run() {
+    const { object, property, computed } = this.node;
 
-    const obj = visitor.visitNode(object);
-    const prop = computed ? visitor.visitNode(property) : visitor.getName(property);
+    const obj = this.visitor.visitNode(object);
+    const prop = computed ? this.visitor.visitNode(property) : this.visitor.getName(property);
 
     if (prop !== undefined || prop !== null) {
-      if (visitor.listeners[prop]) {
-        const cb = visitor.listeners[prop](node, visitor);
+      if (this.visitor.listeners[prop]) {
+        const cb = this.visitor.listeners[prop](this.node, this.visitor);
         if (cb !== 'proceed') {
           return cb;
         }

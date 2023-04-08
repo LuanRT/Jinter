@@ -1,13 +1,11 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class SwitchCase {
-  static visit(node: ESTree.SwitchCase, visitor: Visitor) {
-    for (const stmt of node.consequent) {
-      const result = visitor.visitNode(stmt);
-      if (stmt.type === 'ContinueStatement') {
-        return result;
-      } else if (stmt.type === 'BreakStatement') {
+export default class SwitchCase extends BaseJSNode<ESTree.SwitchCase> {
+  public run() {
+    for (const stmt of this.node.consequent) {
+      const result = this.visitor.visitNode(stmt);
+      if (stmt.type === 'ContinueStatement' || stmt.type === 'BreakStatement') {
         return result;
       }
     }

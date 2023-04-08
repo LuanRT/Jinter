@@ -1,19 +1,19 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
-import { namedFunction } from '../utils';
+import { namedFunction } from '../utils/index.js';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class FunctionExpression {
-  static visit(node: ESTree.FunctionExpression, visitor: Visitor) {
-    const { params, body } = node;
+export default class FunctionExpression extends BaseJSNode<ESTree.FunctionExpression> {
+  public run() {
+    const { params, body } = this.node;
 
     const fn = namedFunction('anonymous function', (args: any[]) => {
       let index = 0;
 
       for (const param of params) {
-        visitor.visitNode(param);
+        this.visitor.visitNode(param);
 
         if (param.type === 'Identifier') {
-          visitor.scope.set(param.name, args[index]);
+          this.visitor.scope.set(param.name, args[index]);
         } else {
           console.warn('Unhandled param type', param.type);
         }
@@ -21,7 +21,7 @@ export default class FunctionExpression {
         index++;
       }
 
-      return visitor.visitNode(body);
+      return this.visitor.visitNode(body);
     });
 
     return fn;

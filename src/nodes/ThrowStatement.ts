@@ -1,9 +1,9 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class ThrowStatement {
-  static visit(node: ESTree.ThrowStatement, visitor: Visitor) {
-    const arg = visitor.visitNode(node.argument);
+export default class ThrowStatement extends BaseJSNode<ESTree.ThrowStatement> {
+  public run() {
+    const arg = this.visitor.visitNode(this.node.argument);
     throw arg;
   }
 }

@@ -1,19 +1,19 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class SwitchStatement {
-  static visit(node: ESTree.SwitchStatement, visitor: Visitor) {
-    const discriminant = visitor.visitNode(node.discriminant);
+export default class SwitchStatement extends BaseJSNode<ESTree.SwitchStatement> {
+  public run() {
+    const discriminant = this.visitor.visitNode(this.node.discriminant);
 
     let matched = false;
     let default_case = -1;
     let index = 0;
 
     while (true) {
-      const _case = node.cases[index];
+      const _case = this.node.cases[index];
 
       if (matched) {
-        const result = visitor.visitNode(_case);
+        const result = this.visitor.visitNode(_case);
 
         // If it's a break then stop here.
         if (result === 'break') {
@@ -27,7 +27,7 @@ export default class SwitchStatement {
 
         ++index;
 
-        if (index >= node.cases.length) {
+        if (index >= this.node.cases.length) {
           index = 0;
           break;
         } else {
@@ -35,10 +35,10 @@ export default class SwitchStatement {
         }
       }
 
-      matched = _case && (discriminant === visitor.visitNode(_case.test));
+      matched = _case && (discriminant === this.visitor.visitNode(_case.test));
 
       // Ran through all cases and checked everything, break the loop.
-      if (matched === undefined && index > node.cases.length)
+      if (matched === undefined && index > this.node.cases.length)
         break;
 
       // Save the default case so we can get back to it later.

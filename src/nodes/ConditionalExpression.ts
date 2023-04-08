@@ -1,16 +1,16 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class ConditionalExpression {
-  static visit(node: ESTree.ConditionalExpression, visitor: Visitor) {
-    const { test, consequent, alternate } = node;
+export default class ConditionalExpression extends BaseJSNode<ESTree.ConditionalExpression> {
+  public run() {
+    const { test, consequent, alternate } = this.node;
 
-    const check = visitor.visitNode(test);
+    const check = this.visitor.visitNode(test);
 
     if (check) {
-      return visitor.visitNode(consequent);
+      return this.visitor.visitNode(consequent);
     }
 
-    return visitor.visitNode(alternate);
+    return this.visitor.visitNode(alternate);
   }
 }

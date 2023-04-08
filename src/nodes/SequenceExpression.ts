@@ -1,12 +1,12 @@
-import Visitor from '../visitor';
 import type ESTree from 'estree';
+import BaseJSNode from './BaseJSNode.js';
 
-export default class SequenceExpression {
-  static visit(node: ESTree.SequenceExpression, visitor: Visitor) {
+export default class SequenceExpression extends BaseJSNode<ESTree.SequenceExpression> {
+  public run() {
     let result;
 
-    for (const expression of node.expressions) {
-      result = visitor.visitNode(expression);
+    for (const expression of this.node.expressions) {
+      result = this.visitor.visitNode(expression);
     }
 
     return result;
