@@ -6,7 +6,7 @@
 
 <div align="center">
 
-  [![Tests](https://github.com/LuanRT/Jinter/actions/workflows/node.js.yml/badge.svg?branch=main)][actions]
+  [![Tests](https://github.com/LuanRT/Jinter/actions/workflows/test.yml/badge.svg?branch=main)][actions]
 
 
 </div>
