@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/LuanRT/Jinter/compare/v1.0.0...v1.0.0) (2023-04-08)
+
+
+### Miscellaneous Chores
+
+* release 1.0.0 ([7c292f7](https://github.com/LuanRT/Jinter/commit/7c292f7c1e187a5a2d59e4f85871d61375f6b0f2))
+
 ## 1.0.0 (2023-04-08)
 
 
