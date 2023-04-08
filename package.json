@@ -15,31 +15,20 @@
     ".": {
       "node": {
         "import": "./dist/index.js",
-        "require": "./bundle/node.cjs"
+        "require": "./bundle/jinter.cjs"
       },
       "default": "./dist/index.js",
-      "browser": "./bundle/browser.js",
       "types": "./dist/index.d.ts"
-    },
-    "./web.bundle": {
-      "types": "./dist/index.d.ts",
-      "default": "./bundle/browser.js"
-    },
-    "./web.bundle.min": {
-      "types": "./dist/index.d.ts",
-      "default": "./bundle/browser.min.js"
     }
   },
   "scripts": {
     "test": "npx jest --verbose",
-    "build": "npm run build:esm && npm run build:nodes-map && npm run bundle:node && npm run bundle:browser && npm run bundle:browser:prod",
+    "build": "npm run build:esm && npm run build:nodes-map && npm run bundle:node",
     "lint": "npx eslint ./src/**/*.ts",
     "lint:fix": "npx eslint --fix ./src/**/*.ts",
     "build:esm": "npx tsc",
     "build:nodes-map": "node ./scripts/build-nodes-map.js",
-    "bundle:node": "npx esbuild ./dist/index.js --bundle --outfile=./bundle/node.cjs --platform=node --target=node10 --format=cjs --sourcemap --banner:js=\"/* eslint-disable */\" --external:acorn",
-    "bundle:browser": "npx esbuild ./dist/index.js --bundle --outfile=./bundle/browser.js --platform=browser --target=chrome58 --format=esm --sourcemap --banner:js=\"/* eslint-disable */\"",
-    "bundle:browser:prod": "npm run bundle:browser -- --minify --outfile=./bundle/browser.min.js",
+    "bundle:node": "npx esbuild ./dist/index.js --bundle --outfile=./bundle/jinter.cjs --platform=node --target=node10 --format=cjs --sourcemap --banner:js=\"/* eslint-disable */\" --external:acorn",
     "prepare": "npm run build",
     "watch": "npx tsc --watch"
   },
