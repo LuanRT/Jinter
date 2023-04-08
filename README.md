@@ -1,5 +1,4 @@
 [actions]: https://github.com/LuanRT/Jinter/actions
-[say-thanks]: https://saythanks.io/to/LuanRT
 
 <h1 align=center>Jinter</h1>
 
@@ -8,18 +7,33 @@
 <div align="center">
 
   [![Tests](https://github.com/LuanRT/Jinter/actions/workflows/node.js.yml/badge.svg?branch=main)][actions]
-  [![Say thanks](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)][say-thanks]
+
 
 </div>
 
 > **Note**: This project was originally developed for use in [YouTube.js](https://github.com/LuanRT/YouTube.js).
 
-### Usage
+## Table of Contents <!-- omit in toc -->
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+  - [`interpret()`](#interpret)
+  - [`visitor`](#visitor)
+  - [`scope`](#scope)
+- [License](#license)
+
+## Installation
+```sh
+npm install jintr
+```
+
+## Usage
 
 Execute some JavaScript code:
 ```ts
 // const Jinter = require('jintr').default;
-import Jinter from 'jintr';
+import { Jinter } from 'jintr';
 
 const code = `
   function sayHiTo(person) {
@@ -62,6 +76,21 @@ jinter.interpret();
 ```
 
 For more examples see [`/test`](https://github.com/LuanRT/Jinter/tree/main/test) and [`/examples`](https://github.com/LuanRT/Jinter/tree/main/examples).
+
+## API
+* Jinter(code: string)
+  * [`interpret()`](#interpret)
+  * [`visitor`](#visitor)
+  * [`scope`](#scope)
+
+### `interpret()`
+Interprets the code passed to the constructor.
+
+### `visitor`
+The node visitor. This is responsible for walking the AST and executing the nodes.
+
+### `scope`
+Represents the global scope of the program.
 
 ## License
 Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License.
