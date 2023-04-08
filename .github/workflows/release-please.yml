@@ -19,9 +19,12 @@ jobs:
           release-type: node
           package-name: jintr
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+        if: ${{ steps.release.outputs.release_created }}
       - name: Publish to NPM
         run: |
           npm ci
