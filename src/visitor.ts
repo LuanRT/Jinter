@@ -59,8 +59,8 @@ export default class Visitor {
     this.listeners[node_name] = listener;
   }
 
-  #getNode<T extends BaseJSNode>(type: string): JSNodeConstructor<T> {
-    const node = Nodes[type as keyof typeof Nodes] as unknown as JSNodeConstructor<T>;
+  #getNode<T extends BaseJSNode>(type: string) {
+    const node = Nodes[type as keyof typeof Nodes] as JSNodeConstructor<T>;
 
     if (!node) {
       console.warn(
