@@ -17,8 +17,8 @@
         "import": "./dist/index.js",
         "require": "./bundle/jinter.cjs"
       },
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
