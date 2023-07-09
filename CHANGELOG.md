@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/LuanRT/Jinter/compare/v1.0.0...v1.1.0) (2023-07-09)
+
+
+### Features
+
+* add `ForOfStatement` node ([203d3ae](https://github.com/LuanRT/Jinter/commit/203d3ae09dbdf9e86a3d5870485645c261465384))
+
 ## [1.0.0](https://github.com/LuanRT/Jinter/compare/v1.0.0...v1.0.0) (2023-04-08)
 
 
