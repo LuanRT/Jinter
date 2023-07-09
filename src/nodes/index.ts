@@ -9,6 +9,7 @@ export { default as CallExpression } from './CallExpression.js';
 export { default as ConditionalExpression } from './ConditionalExpression.js';
 export { default as ContinueStatement } from './ContinueStatement.js';
 export { default as ExpressionStatement } from './ExpressionStatement.js';
+export { default as ForOfStatement } from './ForOfStatement.js';
 export { default as ForStatement } from './ForStatement.js';
 export { default as FunctionDeclaration } from './FunctionDeclaration.js';
 export { default as FunctionExpression } from './FunctionExpression.js';

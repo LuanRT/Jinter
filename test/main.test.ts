@@ -524,6 +524,22 @@ describe('Jinter Tests', () => {
       expect(result).toEqual(50);
     });
 
+    it('should support for of loops', () => {
+      const code = `
+        const arr = [1, 2, 3, 4, 5];
+        let sum = 0;
+
+        for (let num of arr) {
+          sum += num;
+        }
+      `;
+
+      const jinter = new Jinter(code);
+      jinter.interpret();
+
+      expect(jinter.scope.get('sum')).toEqual(15);
+    });
+
     it('should support while loops', () => {
       const code = `
         let num_1 = 0;
