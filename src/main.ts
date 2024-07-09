@@ -75,6 +75,22 @@ export default class Jinter {
       } return 'proceed';
     });
 
+    this.visitor.on('Array', (node, visitor) => {
+      if (node.type === 'Identifier')
+        return Array;
+
+      if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
+        const prop: keyof typeof Array = visitor.visitNode(node.callee.property);
+        const args = node.arguments.map((arg) => visitor.visitNode(arg));
+        const array_prop = Array[prop] as Function;
+
+        if (!array_prop)
+          return 'proceed';
+
+        return array_prop(args);
+      } return 'proceed';
+    });
+
     this.visitor.on('Date', (node) => {
       if (node.type === 'Identifier')
         return Date;
