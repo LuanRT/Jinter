@@ -11,3 +11,15 @@ export interface JSNode<T extends BaseJSNode> extends BaseJSNode {
 export interface JSNodeConstructor<T extends BaseJSNode> {
   new(node: ESTree.Node, visitor: Visitor): JSNode<T>;
 }
+
+export class JinterError extends Error {
+  info?: any;
+
+  constructor(message: string, info?: any) {
+    super(message);
+
+    if (info) {
+      this.info = info;
+    }
+  }
+}
