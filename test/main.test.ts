@@ -8,8 +8,8 @@ describe('Jinter Tests', () => {
         const result = true && false;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(false);
     });
@@ -19,8 +19,8 @@ describe('Jinter Tests', () => {
         const result = true || false;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(true);
     });
@@ -30,8 +30,8 @@ describe('Jinter Tests', () => {
         const result = null ?? false;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(false);
     });
@@ -44,8 +44,8 @@ describe('Jinter Tests', () => {
         const result = num++;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(10);
       expect(jinter.scope.get('num')).toEqual(11);
@@ -57,8 +57,8 @@ describe('Jinter Tests', () => {
         const result = num--;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(10);
       expect(jinter.scope.get('num')).toEqual(9);
@@ -70,8 +70,8 @@ describe('Jinter Tests', () => {
         const result = ++num;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(11);
       expect(jinter.scope.get('num')).toEqual(11);
@@ -83,8 +83,8 @@ describe('Jinter Tests', () => {
         const result = --num;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(9);
       expect(jinter.scope.get('num')).toEqual(9);
@@ -98,8 +98,8 @@ describe('Jinter Tests', () => {
         const result = -num;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(-10);
     });
@@ -110,8 +110,8 @@ describe('Jinter Tests', () => {
         const result = +num;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(10);
     });
@@ -122,8 +122,8 @@ describe('Jinter Tests', () => {
         const result = !bool;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(false);
     });
@@ -134,8 +134,8 @@ describe('Jinter Tests', () => {
         const result = ~num;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(-11);
     });
@@ -146,8 +146,8 @@ describe('Jinter Tests', () => {
         const result = typeof num;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual('number');
     });
@@ -157,8 +157,8 @@ describe('Jinter Tests', () => {
         const result = void 0;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(undefined);
     });
@@ -169,8 +169,8 @@ describe('Jinter Tests', () => {
         const result = delete obj.a;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(true);
       expect(jinter.scope.get('obj')).toEqual({ b: 2, c: 3 });
@@ -184,8 +184,8 @@ describe('Jinter Tests', () => {
         const num_2 = 5;
         const result = num_1 == num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(false);
     });
@@ -196,8 +196,8 @@ describe('Jinter Tests', () => {
         const num_2 = '10';
         const result = num_1 === num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(false);
     });
@@ -208,8 +208,8 @@ describe('Jinter Tests', () => {
         const num_2 = 5;
         const result = num_1 != num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(true);
     });
@@ -220,8 +220,8 @@ describe('Jinter Tests', () => {
         const num_2 = '10';
         const result = num_1 !== num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(true);
     });
@@ -233,8 +233,8 @@ describe('Jinter Tests', () => {
         const result = num_1 > num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(true);
     });
@@ -246,8 +246,8 @@ describe('Jinter Tests', () => {
         const result = num_1 >= num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(true);
     });
@@ -259,8 +259,8 @@ describe('Jinter Tests', () => {
         const result = num_1 < num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(false);
     });
@@ -272,8 +272,8 @@ describe('Jinter Tests', () => {
         const result = num_1 + num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(15);
     });
@@ -285,8 +285,8 @@ describe('Jinter Tests', () => {
         const result = num_1 - num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(5);
     });
@@ -298,8 +298,8 @@ describe('Jinter Tests', () => {
         const result = num_1 * num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(50);
     });
@@ -311,8 +311,8 @@ describe('Jinter Tests', () => {
         const result = num_1 / num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(2);
     });
@@ -324,8 +324,8 @@ describe('Jinter Tests', () => {
         const result = num_1 ** num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(8);
     });
@@ -337,8 +337,8 @@ describe('Jinter Tests', () => {
         const result = num_1 % num_2;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(1);
     });
@@ -349,8 +349,8 @@ describe('Jinter Tests', () => {
         const num_2 = 3;
         const result = num_1 << num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(80);
     });
@@ -361,8 +361,8 @@ describe('Jinter Tests', () => {
         const num_2 = 3;
         const result = num_1 >> num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(1);
     });
@@ -373,8 +373,8 @@ describe('Jinter Tests', () => {
         const num_2 = 3;
         const result = num_1 >>> num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(1);
     });
@@ -385,8 +385,8 @@ describe('Jinter Tests', () => {
         const num_2 = 3;
         const result = num_1 & num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(2);
     });
@@ -397,8 +397,8 @@ describe('Jinter Tests', () => {
         const num_2 = 3;
         const result = num_1 ^ num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(9);
     });
@@ -409,8 +409,8 @@ describe('Jinter Tests', () => {
         const num_2 = 3;
         const result = num_1 | num_2;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toEqual(11);
     });
@@ -420,8 +420,8 @@ describe('Jinter Tests', () => {
         const obj = { a: 1, b: 2 };
         const result = 'a' in obj;
       `;
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toBeTruthy();
     });
@@ -432,8 +432,8 @@ describe('Jinter Tests', () => {
         const result = that_date instanceof Date;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toBeTruthy();
     });
@@ -447,8 +447,8 @@ describe('Jinter Tests', () => {
         let num = 24;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.has('greeting')).toBeTruthy();
       expect(jinter.scope.has('num')).toBeTruthy();
@@ -459,8 +459,8 @@ describe('Jinter Tests', () => {
         function fn(arg) { return arg; }
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.has('fn')).toBeTruthy();
     });
@@ -474,7 +474,7 @@ describe('Jinter Tests', () => {
         greet('Jacob');
       `
 
-      const jinter = new Jinter(code);
+      const jinter = new Jinter();
 
       jinter.visitor.on('print', (node: any, visitor: any) => {
         const args = node.arguments.map((arg: any) => visitor.visitNode(arg));
@@ -482,7 +482,7 @@ describe('Jinter Tests', () => {
         return;
       });
 
-      jinter.interpret();
+      jinter.evaluate(code)
     });
 
     it('should create objects', () => {
@@ -499,8 +499,8 @@ describe('Jinter Tests', () => {
         const comparison = myobj.level_1.prop === myobj.level_2.prop;
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('comparison')).toBeFalsy();
     });
@@ -518,8 +518,8 @@ describe('Jinter Tests', () => {
         run();
       `;
 
-      const jinter = new Jinter(code);
-      const result = jinter.interpret();
+      const jinter = new Jinter();
+      const result = jinter.evaluate(code)
 
       expect(result).toEqual(50);
     });
@@ -534,8 +534,8 @@ describe('Jinter Tests', () => {
         }
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('sum')).toEqual(15);
     });
@@ -550,8 +550,8 @@ describe('Jinter Tests', () => {
         }
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('num_1')).toEqual(200);
     });
@@ -569,8 +569,8 @@ describe('Jinter Tests', () => {
         }
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toBe('It is smaller');
     });
@@ -581,8 +581,8 @@ describe('Jinter Tests', () => {
         fn('hello');
       `;
 
-      const jinter = new Jinter(code);
-      const result = jinter.interpret();
+      const jinter = new Jinter();
+      const result = jinter.evaluate(code)
 
       expect(result).toBe('hello');
     });
@@ -590,10 +590,9 @@ describe('Jinter Tests', () => {
     it('should interpret a small program', async () => {
       const nsig_code = fs.readFileSync('./examples/test-code.js').toString();
 
-      const jinter = new Jinter(nsig_code);
+      const jinter = new Jinter();
       jinter.scope.set('ntoken', 'b6HcntHGkvBLk_FRf');
-    
-      const result = jinter.interpret();
+      const result = jinter.evaluate(nsig_code)
 
       expect(result).toBe('kNPW6A7FyP2l8A');
     });
@@ -604,8 +603,8 @@ describe('Jinter Tests', () => {
         const result = regex.test('hello world');
       `;
 
-      const jinter = new Jinter(code);
-      jinter.interpret();
+      const jinter = new Jinter();
+      jinter.evaluate(code)
 
       expect(jinter.scope.get('result')).toBeTruthy();
     });

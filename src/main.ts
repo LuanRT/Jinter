@@ -1,30 +1,25 @@
 import Visitor from './visitor.js';
 import { parse } from 'acorn';
 import type { Node } from 'estree';
+import { JinterError } from './utils/index.js';
 
 export default class Jinter {
-  #ast: Node[];
+  #ast: Node[] = [];
 
   /**
    * The node visitor. This is responsible for walking the AST and executing the nodes.
    */
   public visitor: Visitor;
 
-
   /**
    * The global scope of the program.
    */
   public scope: Map<string, any>;
 
-  constructor(input: string) {
-    const program = parse(input, { ecmaVersion: 2020 });
-
-    this.#ast = program.body;
-
-    this.visitor = new Visitor(this.#ast);
+  constructor() {
+    this.visitor = new Visitor();
     this.scope = this.visitor.scope;
     this.scope.set('print', (args: any[]) => console.log(...args));
-
     this.defineObject('console', console);
     this.defineObject('Math', Math);
     this.defineObject('String', String);
@@ -45,19 +40,25 @@ export default class Jinter {
         if (!callable)
           return '__continue_exec';
 
-
         return callable.apply(obj, args);
       } return '__continue_exec';
-
-
     });
   }
 
   /**
-   * Interprets the program.
+   * Evaluates the program.
    * @returns The result of the last statement in the program.
    */
-  public interpret() {
+  public evaluate(input: string) {
+    try {
+      const program = parse(input, { ecmaVersion: 2020 });
+      this.#ast = program.body;
+    } catch (e: any) {
+      throw new JinterError(`Syntax error: ${e.message}`);
+    }
+
+    this.visitor.setAST(this.#ast);
+
     return this.visitor.run();
   }
 }
