@@ -591,11 +591,23 @@ describe('Jinter Tests', () => {
       const nsig_code = fs.readFileSync('./examples/test-code.js').toString();
 
       const jinter = new Jinter(nsig_code);
-      jinter.scope.set('ntoken', 'vPIcacaohWtfY_');
+      jinter.scope.set('ntoken', 'b6HcntHGkvBLk_FRf');
     
       const result = jinter.interpret();
 
-      expect(result).toBe('-pK0vFvet_mXoA');
+      expect(result).toBe('kNPW6A7FyP2l8A');
+    });
+
+    it('should support regex', () => {
+      const code = `
+        const regex = /hello/;
+        const result = regex.test('hello world');
+      `;
+
+      const jinter = new Jinter(code);
+      jinter.interpret();
+
+      expect(jinter.scope.get('result')).toBeTruthy();
     });
   });
 });
