@@ -54,7 +54,7 @@ export default class Jinter {
       const program = parse(input, { ecmaVersion: 2020 });
       this.#ast = program.body;
     } catch (e: any) {
-      throw new JinterError(`Syntax error: ${e.message}`);
+      throw new JinterError(e.message);
     }
 
     this.visitor.setAST(this.#ast);
