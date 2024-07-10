@@ -45,8 +45,11 @@ export default class Jinter {
         if (!callable)
           return '__continue_exec';
 
+
         return callable.apply(obj, args);
       } return '__continue_exec';
+
+
     });
   }
 
