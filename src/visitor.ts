@@ -8,9 +8,9 @@ export type Listener = (node: Node, visitor: Visitor) => any;
 export default class Visitor {
   public scope: Map<string, any> = new Map();
   public listeners: { [key: string]: Listener } = {};
-  public ast: Node[];
+  public ast: Node[] = [];
 
-  constructor(ast: Node[]) {
+  public setAST(ast: Node[]) {
     this.ast = ast;
   }
 

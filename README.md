@@ -18,7 +18,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [API](#api)
-  - [`interpret()`](#interpret)
+  - [`evaluate(input: string)`](#evaluateinput-string)
   - [`visitor`](#visitor)
   - [`scope`](#scope)
 - [License](#license)
@@ -43,48 +43,63 @@ const code = `
   sayHiTo('mom');
 `
 
-const jinter = new Jinter(code);
-jinter.interpret();
+const jinter = new Jinter();
+jinter.evaluate(code);
 ```
 ---
-Inject your own functions and variables into the interpreter:
+Inject your own functions, objects, etc:
 ```ts
-// ...
+import { Jinter } from './dist/index.js';
 
-jinter.visitor.on('println', (node, visitor) => {
-  if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
-    const args = node.arguments.map((arg) => visitor.visitNode(arg));
-    return console.log(...args);
+const jinter = new Jinter();
+
+const code = `
+  console.log(new SomeClass().a);
+  console.log('hello'.toArray());
+
+  function myFn() {
+    console.log('[myFn]: Who called me?');
   }
-});
+
+  myFn();
+`;
+
+class SomeClass {
+  constructor() {
+    this.a = 'this is a test';
+  }
+}
+
+jinter.defineObject('SomeClass', SomeClass);
 
 // Ex: str.toArray();
 jinter.visitor.on('toArray', (node, visitor) => {
   if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
     const obj = visitor.visitNode(node.callee.object);
-    return obj.split('');    
-  }  
+    return obj.split('');
+  }
 });
 
-// Or you can just intercept access to specific nodes;
-jinter.visitor.on('myFn', (node, visitor) => {
-  console.info('MyFn node just got accessed:', node);
-  return 'proceed'; // tells the interpreter to continue execution 
+// Intercept function calls
+jinter.visitor.on('myFn', (node) => {
+  if (node.type == 'CallExpression')
+    console.info('myFn was called!');
+  return '__continue_exec';
 });
 
-jinter.interpret();
+jinter.evaluate(code);
 ```
 
 For more examples see [`/test`](https://github.com/LuanRT/Jinter/tree/main/test) and [`/examples`](https://github.com/LuanRT/Jinter/tree/main/examples).
 
 ## API
-* Jinter(code: string)
-  * [`interpret()`](#interpret)
+* Jinter()
+  * [`evaluate(input: string)`](#evaluate)
   * [`visitor`](#visitor)
   * [`scope`](#scope)
 
-### `interpret()`
-Interprets the code passed to the constructor.
+### `evaluate(input: string)`
+Evaluates the given JavaScript code.
 
 ### `visitor`
 The node visitor. This is responsible for walking the AST and executing the nodes.

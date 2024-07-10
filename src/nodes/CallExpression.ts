@@ -1,6 +1,7 @@
 import type Visitor from '../visitor.js';
 import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
+import { JinterError } from '../utils/index.js';
 
 export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
   public run() {
@@ -17,7 +18,7 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
     // Obj.fn(...);
     if (exp_object && this.visitor.listeners[exp_object]) {
       const cb = this.visitor.listeners[exp_object](this.node, this.visitor);
-      if (cb !== 'proceed') {
+      if (cb !== '__continue_exec') {
         return cb;
       }
     }
@@ -25,7 +26,7 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
     // ?.fn(...);
     if (exp_property && exp_property !== 'toString' && this.visitor.listeners[exp_property]) {
       const cb = this.visitor.listeners[exp_property](this.node, this.visitor);
-      if (cb !== 'proceed') {
+      if (cb !== '__continue_exec') {
         return cb;
       }
     }
@@ -38,6 +39,9 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
       const obj = this.visitor.visitNode(this.node.callee.object);
       const prop = this.node.callee.computed ? this.visitor.visitNode(this.node.callee.property) : this.visitor.getName(this.node.callee.property);
       const args = this.node.arguments.map((arg) => this.visitor.visitNode(arg));
+
+      if (!obj)
+        this.#throwError();
 
       if (typeof obj[prop] !== 'function')
         this.#throwError();
@@ -58,10 +62,9 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
   }
 
   #throwError() {
-    if (this.node.callee.type === 'MemberExpression') {
-      throw new Error(`${this.node.callee.object.type === 'Identifier' ? this.node.callee.object.name : '<object>'}.${this.node.callee.property.type === 'Identifier' ? this.node.callee.property.name : '?'} is not a function`);
-    } else if (this.node.callee.type === 'Identifier') {
-      throw new Error(`${this.node.callee.name} is not a function`);
+    if (this.node.callee.type === 'MemberExpression' || this.node.callee.type === 'Identifier') {
+      const callee_string = this.#getCalleeString(this.node.callee);
+      throw new JinterError(`${callee_string} is not a function`);
     } else if (this.node.callee.type === 'SequenceExpression') {
       const call: string[] = [];
       const items: string[] = [];
@@ -83,8 +86,19 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
       call.push(items.join(', '));
       call.push(')');
 
-      throw new Error(`${call.join('')} is not a function`);
+      throw new JinterError(`${call.join('')} is not a function`);
     }
+  }
+
+  #getCalleeString(node: ESTree.MemberExpression | ESTree.Identifier): string {
+    if (node.type === 'Identifier') {
+      return node.name;
+    } else if (node.type === 'MemberExpression') {
+      const object_string = this.#getCalleeString(node.object as ESTree.MemberExpression | ESTree.Identifier);
+      const property_string = node.computed ? `[${this.visitor.getName(node.property) || '...'}]` : `.${this.visitor.getName(node.property)}`;
+      return `${object_string}${property_string}`;
+    }
+    return '<unknown>';
   }
 }
 
@@ -111,8 +125,6 @@ class Builtins {
       } else {
         console.warn('Unhandled callee type:', node.callee.type);
       }
-
-
     },
     // Also override the toString method so that it stringifies the correct object
     toString: (node: ESTree.CallExpression, visitor: Visitor) => {

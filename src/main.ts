@@ -1,107 +1,64 @@
 import Visitor from './visitor.js';
 import { parse } from 'acorn';
 import type { Node } from 'estree';
+import { JinterError } from './utils/index.js';
 
 export default class Jinter {
-  #ast: Node[];
+  #ast: Node[] = [];
 
   /**
    * The node visitor. This is responsible for walking the AST and executing the nodes.
    */
   public visitor: Visitor;
 
-
   /**
    * The global scope of the program.
    */
   public scope: Map<string, any>;
 
-  constructor(input: string) {
-    const program = parse(input, { ecmaVersion: 2020 });
-
-    this.#ast = program.body;
-
-    this.visitor = new Visitor(this.#ast);
+  constructor() {
+    this.visitor = new Visitor();
     this.scope = this.visitor.scope;
-
     this.scope.set('print', (args: any[]) => console.log(...args));
+    this.defineObject('console', console);
+    this.defineObject('Math', Math);
+    this.defineObject('String', String);
+    this.defineObject('Array', Array);
+    this.defineObject('Date', Date);
+  }
 
-    this.visitor.on('console', (node, visitor) => {
+  public defineObject<T>(name: string, obj: T) {
+    this.visitor.on(name, (node, visitor) => {
       if (node.type === 'Identifier')
-        return console;
+        return obj;
 
       if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
-        const prop: keyof Console = visitor.visitNode(node.callee.property);
+        const prop: keyof T = visitor.visitNode(node.callee.property);
         const args = node.arguments.map((arg) => visitor.visitNode(arg));
+        const callable = obj[prop] as Function | undefined;
 
-        const console_prop = console[prop] as Function;
+        if (!callable)
+          return '__continue_exec';
 
-        if (!console_prop)
-          return 'proceed';
-
-        return console_prop(...args);
-      } return 'proceed';
-    });
-
-    this.visitor.on('Math', (node, visitor) => {
-      if (node.type === 'Identifier')
-        return Math;
-
-      if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
-        const prop: keyof Math = visitor.visitNode(node.callee.property);
-        const args = node.arguments.map((arg) => visitor.visitNode(arg));
-        const math_prop = Math[prop] as Function;
-
-        if (!math_prop)
-          return 'proceed';
-
-        return math_prop(...(args as [number, number]));
-      } return 'proceed';
-    });
-
-    this.visitor.on('String', (node, visitor) => {
-      if (node.type === 'Identifier')
-        return String;
-
-      if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
-        const prop: keyof typeof String = visitor.visitNode(node.callee.property);
-        const args = node.arguments.map((arg) => visitor.visitNode(arg));
-        const string_prop = String[prop] as Function;
-
-        if (!string_prop)
-          return 'proceed';
-
-        return string_prop(args);
-      } return 'proceed';
-    });
-
-    this.visitor.on('Array', (node, visitor) => {
-      if (node.type === 'Identifier')
-        return Array;
-
-      if (node.type === 'CallExpression' && node.callee.type === 'MemberExpression') {
-        const prop: keyof typeof Array = visitor.visitNode(node.callee.property);
-        const args = node.arguments.map((arg) => visitor.visitNode(arg));
-        const array_prop = Array[prop] as Function;
-
-        if (!array_prop)
-          return 'proceed';
-
-        return array_prop(args);
-      } return 'proceed';
-    });
-
-    this.visitor.on('Date', (node) => {
-      if (node.type === 'Identifier')
-        return Date;
+        return callable.apply(obj, args);
+      } return '__continue_exec';
     });
   }
 
   /**
-   * Interprets the program.
+   * Evaluates the program.
    * @returns The result of the last statement in the program.
    */
-  public interpret() {
+  public evaluate(input: string) {
+    try {
+      const program = parse(input, { ecmaVersion: 2020 });
+      this.#ast = program.body;
+    } catch (e: any) {
+      throw new JinterError(`Syntax error: ${e.message}`);
+    }
+
+    this.visitor.setAST(this.#ast);
+
     return this.visitor.run();
   }
 }

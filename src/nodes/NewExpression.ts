@@ -5,6 +5,6 @@ export default class NewExpression extends BaseJSNode<ESTree.NewExpression> {
   public run() {
     const callee = this.visitor.visitNode(this.node.callee);
     const args = this.node.arguments.map((arg: any) => this.visitor.visitNode(arg));
-    return new callee(args);
+    return args.length ? new callee(args) : new callee();
   }
 }

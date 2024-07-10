@@ -11,7 +11,7 @@ export default class MemberExpression extends BaseJSNode<ESTree.MemberExpression
     if (prop !== undefined || prop !== null) {
       if (this.visitor.listeners[prop]) {
         const cb = this.visitor.listeners[prop](this.node, this.visitor);
-        if (cb !== 'proceed') {
+        if (cb !== '__continue_exec') {
           return cb;
         }
       }

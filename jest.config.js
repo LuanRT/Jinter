@@ -4,9 +4,9 @@ export default {
       displayName: 'node',
       roots: [ '<rootDir>/test' ],
       transform: {
-        "^.+\\.(ts|tsx)$": "ts-jest",
+        '^.+\\.(ts|tsx)$': 'ts-jest'
       },
-      moduleFileExtensions: ["ts", "tsx", "js"],
+      moduleFileExtensions: [ 'ts', 'tsx', 'js' ],
       testMatch: [ '**/*.test.ts' ],
       setupFiles: []
     }

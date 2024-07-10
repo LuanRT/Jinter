@@ -5,7 +5,7 @@ export default class Identifier extends BaseJSNode<ESTree.Identifier> {
   public run() {
     if (this.visitor.listeners[this.node.name]) {
       const cb = this.visitor.listeners[this.node.name](this.node, this.visitor);
-      if (cb !== 'proceed') {
+      if (cb !== '__continue_exec') {
         return cb;
       }
     }
