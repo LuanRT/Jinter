@@ -49,7 +49,7 @@ jinter.evaluate(code);
 ---
 Inject your own functions, objects, etc:
 ```ts
-import { Jinter } from './dist/index.js';
+import { Jinter } from 'jintr';
 
 const jinter = new Jinter();
 
