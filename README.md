@@ -69,7 +69,7 @@ jinter.visitor.on('toArray', (node, visitor) => {
 // Or you can just intercept access to specific nodes;
 jinter.visitor.on('myFn', (node, visitor) => {
   console.info('MyFn node just got accessed:', node);
-  return 'proceed'; // tells the interpreter to continue execution 
+  return '__continue_exec'; // tells the interpreter to continue execution 
 });
 
 jinter.interpret();
