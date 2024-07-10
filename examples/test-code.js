@@ -1,3 +1,4 @@
+/* eslint-disable */
 // YouTube's nsig cipher
 function transform(a) {
   let b = String.prototype.split.call(a, ""),
