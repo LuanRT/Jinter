@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/LuanRT/Jinter/compare/v1.1.0...v1.2.0) (2024-07-31)
+
+
+### Features
+
+* Add `parseScript` ([654d06d](https://github.com/LuanRT/Jinter/commit/654d06d5d9a7c9f4d2c462c09372e37e65ade092))
+* Add support for template literals ([#15](https://github.com/LuanRT/Jinter/issues/15)) ([6daec99](https://github.com/LuanRT/Jinter/commit/6daec990fbe17792865cd1fdb0309a30dfeeb094))
+
 ## [1.1.0](https://github.com/LuanRT/Jinter/compare/v1.0.0...v1.1.0) (2023-07-09)
 
 
