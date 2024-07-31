@@ -46,6 +46,17 @@ export default class Jinter {
   }
 
   /**
+   * Generates an AST from the input.
+   */
+  public parseScript(input: string) {
+    try {
+      return parse(input, { ecmaVersion: 2020 });
+    } catch (e: any) {
+      throw new JinterError(e.message);
+    }
+  }
+
+  /**
    * Evaluates the program.
    * @returns The result of the last statement in the program.
    */
