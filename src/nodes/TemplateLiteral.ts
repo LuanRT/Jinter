@@ -3,10 +3,10 @@ import BaseJSNode from './BaseJSNode.js';
 
 export default class TemplateLiteral extends BaseJSNode<ESTree.TemplateLiteral> {
   public run() {
-    let result: string = "";
+    let result = '';
 
     for (let i = 0; i < this.node.quasis.length; ++i) {
-      let quasi = this.node.quasis[i];
+      const quasi = this.node.quasis[i];
 
       if (quasi.type === 'TemplateElement') {
         if (quasi.value.cooked === null) {
@@ -18,7 +18,7 @@ export default class TemplateLiteral extends BaseJSNode<ESTree.TemplateLiteral> 
         }
 
         if (!quasi.tail) {
-          let expr = this.node.expressions[i];
+          const expr = this.node.expressions[i];
           if (expr !== undefined) {
             // This will automatically stringify the node's return value, since result is a string.
             result += this.visitor.visitNode(expr);
