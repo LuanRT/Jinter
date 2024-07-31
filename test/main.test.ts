@@ -608,5 +608,18 @@ describe('Jinter Tests', () => {
 
       expect(jinter.scope.get('result')).toBeTruthy();
     });
+
+    it('should support template literals', () => {
+      const code = `
+        let a = \`world\`;
+        let b = 1234;
+        const result = \`hello \${a}\${a}, \\u{55} \${b * 2}! \${'test'}\`;
+      `;
+
+      const jinter = new Jinter();
+      jinter.evaluate(code)
+
+      expect(jinter.scope.get('result')).toBe('hello worldworld, U 2468! test');
+    });
   });
 });
