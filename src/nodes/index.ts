@@ -25,6 +25,7 @@ export { default as ReturnStatement } from './ReturnStatement.js';
 export { default as SequenceExpression } from './SequenceExpression.js';
 export { default as SwitchCase } from './SwitchCase.js';
 export { default as SwitchStatement } from './SwitchStatement.js';
+export { default as TemplateLiteral } from './TemplateLiteral.js';
 export { default as ThisExpression } from './ThisExpression.js';
 export { default as ThrowStatement } from './ThrowStatement.js';
 export { default as TryStatement } from './TryStatement.js';
