@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/LuanRT/Jinter/compare/v2.1.0...v2.1.1) (2024-07-31)
+
+
+### Miscellaneous Chores
+
+* release 2.1.1 ([ef984b5](https://github.com/LuanRT/Jinter/commit/ef984b530c25320562f9bb37fde680b290558e44))
+
 ## [2.1.0](https://github.com/LuanRT/Jinter/compare/v1.2.0...v2.1.0) (2024-07-31)
 
 
