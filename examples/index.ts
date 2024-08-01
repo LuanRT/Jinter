@@ -1,10 +1,9 @@
 import fs from 'fs';
 import { Jinter } from 'jintr';
 
-const code = fs.readFileSync('./test-code.js').toString();
-
-const jinter = new Jinter(code);
+const jinter = new Jinter();
 jinter.scope.set('ntoken', 'vPIcacaohWtfY_');
-const result = jinter.interpret();
+const code = fs.readFileSync('./test-code.js').toString();
+const result = jinter.evaluate(code);
 
 console.info('Transformed sig:', result);
