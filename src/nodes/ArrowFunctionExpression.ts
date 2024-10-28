@@ -3,7 +3,7 @@ import { namedFunction } from '../utils/index.js';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class ArrowFunctionExpression extends BaseJSNode<ESTree.ArrowFunctionExpression> {
-  public run() {
+  public run(): any {
     const { params, body } = this.node;
 
     // @TODO: Handle other types of params and pass them directly to next node instead of saving them in the global scope

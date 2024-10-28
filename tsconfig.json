@@ -95,6 +95,5 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.js",
-    "acorn.d.ts",
   ],
 }

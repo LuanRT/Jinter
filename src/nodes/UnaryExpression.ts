@@ -53,7 +53,7 @@ export default class UnaryExpression extends BaseJSNode<ESTree.UnaryExpression> 
     return operator in UnaryExpression.operatorMap;
   }
 
-  public run() {
+  public run(): any {
     const { operator, argument } = this.node;
 
     if (!UnaryExpression.isValidOperator(operator)) {

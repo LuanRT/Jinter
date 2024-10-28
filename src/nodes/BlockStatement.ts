@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class BlockStatement extends BaseJSNode<ESTree.BlockStatement> {
-  public run() {
+  public run(): any {
     for (const stmt of this.node.body) {
       const result = this.visitor.visitNode(stmt);
 

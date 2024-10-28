@@ -1,7 +1,9 @@
 import Visitor from './visitor.js';
 import { parse } from 'acorn';
+import { ExtendNode, JinterError } from './utils/index.js';
+
+import type ESTree from 'estree';
 import type { Node } from 'estree';
-import { JinterError } from './utils/index.js';
 
 export default class Jinter {
   #ast: Node[] = [];
@@ -50,9 +52,9 @@ export default class Jinter {
    * Evaluates the program.
    * @returns The result of the last statement in the program.
    */
-  public evaluate(input: string) {
+  public evaluate(input: string): any {
     try {
-      const program = parse(input, { ecmaVersion: 2020 });
+      const program = parse(input, { ecmaVersion: 2020 }) as ExtendNode<ESTree.Program>;
       this.#ast = program.body;
     } catch (e: any) {
       throw new JinterError(e.message);
@@ -66,9 +68,9 @@ export default class Jinter {
   /**
    * Generates an AST from the input.
    */
-  public static parseScript(input: string): import('../acorn.js').ExtendNode<import('estree').Program> {
+  public static parseScript(input: string): ExtendNode<ESTree.Program> {
     try {
-      return parse(input, { ecmaVersion: 2020 });
+      return parse(input, { ecmaVersion: 2020 }) as ExtendNode<ESTree.Program>;
     } catch (e: any) {
       throw new JinterError(e.message);
     }

@@ -43,7 +43,7 @@ export default class AssignmentExpression extends BaseJSNode<ESTree.AssignmentEx
     return this.visitor.scope.get(leftNode.name);
   }
 
-  public run() {
+  public run(): any {
     const { operator, left, right } = this.node;
     const rightValue = this.visitor.visitNode(right);
 

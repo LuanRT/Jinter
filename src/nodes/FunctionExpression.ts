@@ -3,7 +3,7 @@ import { namedFunction } from '../utils/index.js';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class FunctionExpression extends BaseJSNode<ESTree.FunctionExpression> {
-  public run() {
+  public run(): any {
     const { params, body } = this.node;
 
     const fn = namedFunction('anonymous function', (args: any[]) => {

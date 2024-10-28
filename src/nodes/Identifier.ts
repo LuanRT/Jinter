@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class Identifier extends BaseJSNode<ESTree.Identifier> {
-  public run() {
+  public run(): any {
     if (this.visitor.listeners[this.node.name]) {
       const cb = this.visitor.listeners[this.node.name](this.node, this.visitor);
       if (cb !== '__continue_exec') {

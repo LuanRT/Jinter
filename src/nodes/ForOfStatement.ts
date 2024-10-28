@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class ForOfStatement extends BaseJSNode<ESTree.ForOfStatement> {
-  public run() {
+  public run(): any {
     this.visitor.visitNode(this.node.left);
 
     const right_node = this.visitor.visitNode(this.node.right);

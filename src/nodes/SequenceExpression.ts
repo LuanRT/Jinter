@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class SequenceExpression extends BaseJSNode<ESTree.SequenceExpression> {
-  public run() {
+  public run(): any {
     let result;
 
     for (const expression of this.node.expressions) {

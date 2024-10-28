@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class Property extends BaseJSNode<ESTree.Property> {
-  public run() {
+  public run(): any {
     switch (this.node.kind) {
       case 'init':
         return this.#init();

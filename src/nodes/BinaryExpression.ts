@@ -36,7 +36,7 @@ export default class BinaryExpression extends BaseJSNode<ESTree.BinaryExpression
     'instanceof': (left, right) => left instanceof right
   };
 
-  public run() {
+  public run(): any {
     const { operator, left, right } = this.node;
 
     // Pre-evaluate both nodes.

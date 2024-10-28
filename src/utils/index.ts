@@ -1,8 +1,18 @@
-import ESTree from 'estree';
+import acorn from 'acorn';
+import type ESTree from 'estree';
 import BaseJSNode from '../nodes/BaseJSNode.js';
 import Visitor from '../visitor.js';
 
-export const namedFunction = (name: string, fn: Function) => Object.defineProperty(fn, 'name', { value: name });
+export type ExtendNode<T> = {
+  [K in keyof T]: T[K] extends object ? ExtendNode<T[K]> : T[K];
+} & (T extends ESTree.Node
+  ? {
+    start: number;
+    end: number;
+  }
+  : unknown);
+
+export const namedFunction: (name: string, fn: Function) => Function = (name: string, fn: Function) => Object.defineProperty(fn, 'name', { value: name });
 
 export interface JSNode<T extends BaseJSNode> extends BaseJSNode {
   run(): ReturnType<T['run']>;

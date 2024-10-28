@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class TryStatement extends BaseJSNode<ESTree.TryStatement> {
-  public run() {
+  public run(): any {
     try {
       return this.visitor.visitNode(this.node.block);
     } catch (e) {

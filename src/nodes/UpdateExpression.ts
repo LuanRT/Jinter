@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class UpdateExpression extends BaseJSNode<ESTree.UpdateExpression> {
-  public run() {
+  public run(): any {
     const operator = this.node.operator;
 
     switch (operator) {

@@ -31,7 +31,7 @@ export default class LogicalExpression extends BaseJSNode<ESTree.LogicalExpressi
     }
   };
 
-  public run() {
+  public run(): any {
     const { operator, left, right } = this.node;
 
     const operation = LogicalExpression.operatorMap[operator];

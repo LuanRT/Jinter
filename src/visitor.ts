@@ -14,7 +14,7 @@ export default class Visitor {
     this.ast = ast;
   }
 
-  public run() {
+  public run(): any {
     let result;
 
     for (const node of this.ast) {
@@ -27,7 +27,7 @@ export default class Visitor {
   /**
    * Visits a given node and executes it.
    */
-  public visitNode<T extends BaseJSNode>(node?: Node | null) {
+  public visitNode<T extends BaseJSNode>(node?: Node | null): ReturnType<T['run']> | null {
     if (!node)
       return null;
 
@@ -37,13 +37,15 @@ export default class Visitor {
       const instance = new targetNode(node, this);
       return instance.run();
     }
+
+    return null;
   }
 
   /**
    * Gets the name of a node.
    * @param node - The target node.
    */
-  public getName(node: Node) {
+  public getName(node: Node): string | undefined {
     if (node.type === 'Identifier')
       return node.name;
     else if (node.type === 'Literal')

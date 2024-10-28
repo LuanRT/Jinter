@@ -4,7 +4,7 @@ import BaseJSNode from './BaseJSNode.js';
 import { JinterError } from '../utils/index.js';
 
 export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
-  public run() {
+  public run(): any {
     let exp_object: string | undefined;
     let exp_property: string | undefined;
 

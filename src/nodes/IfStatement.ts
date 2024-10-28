@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class IfStatement extends BaseJSNode<ESTree.IfStatement> {
-  public run() {
+  public run(): any {
     const test = this.visitor.visitNode(this.node.test);
 
     if (test) {

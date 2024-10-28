@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class MemberExpression extends BaseJSNode<ESTree.MemberExpression> {
-  public run() {
+  public run(): any {
     const { object, property, computed } = this.node;
 
     const obj = this.visitor.visitNode(object);

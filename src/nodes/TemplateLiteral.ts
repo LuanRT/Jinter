@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class TemplateLiteral extends BaseJSNode<ESTree.TemplateLiteral> {
-  public run() {
+  public run(): any {
     let result = '';
 
     for (let i = 0; i < this.node.quasis.length; ++i) {

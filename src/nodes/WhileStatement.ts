@@ -2,7 +2,7 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
 export default class WhileStatement extends BaseJSNode<ESTree.WhileStatement> {
-  public run() {
+  public run(): any {
     while (this.visitor.visitNode(this.node.test)) {
       const body = this.visitor.visitNode(this.node.body);
 
