@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/LuanRT/Jinter/compare/v3.0.0...v3.0.1) (2024-10-28)
+
+
+### Bug Fixes
+
+* Stop using global augmentation and add `LICENSE` file ([94b6bb0](https://github.com/LuanRT/Jinter/commit/94b6bb0a67a183a994bb5b9134f90e4eb18e6d35))
+
 ## [3.0.0](https://github.com/LuanRT/Jinter/compare/v2.1.1...v3.0.0) (2024-10-28)
 
 
