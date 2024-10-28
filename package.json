@@ -4,18 +4,10 @@
   "description": "A tiny JavaScript interpreter written in TypeScript.",
   "type": "module",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "node": {
-        "import": "./dist/index.js"
-      },
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
   "module": "./dist/index.js",
   "scripts": {
-    "build": "npm run build:esm && npm run build:nodes-map",
+    "clean": "npx rimraf ./dist",
+    "build": "npm run clean && npm run lint && npm run build:nodes-map && npm run build:esm",
     "build:esm": "npx tsc",
     "build:nodes-map": "node ./scripts/build-nodes-map.js",
     "lint": "npx eslint ./src/**/*.ts",
@@ -36,6 +28,15 @@
     "interpreter"
   ],
   "license": "MIT",
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/index.js"
+      },
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "devDependencies": {
     "@types/estree": "^1.0.0",
     "@types/glob": "^8.1.0",
@@ -53,5 +54,9 @@
   "bugs": {
     "url": "https://github.com/LuanRT/Jinter/issues"
   },
-  "homepage": "https://github.com/LuanRT/Jinter#readme"
+  "homepage": "https://github.com/LuanRT/Jinter#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuanRT/Jinter.git"
+  }
 }
