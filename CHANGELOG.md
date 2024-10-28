@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/LuanRT/Jinter/compare/v2.1.1...v3.0.0) (2024-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* Drop `CJS` support
+
+### Code Refactoring
+
+* Drop `CJS` support ([e3d5346](https://github.com/LuanRT/Jinter/commit/e3d53466c5021e3ca0b934317aa9fdad338cafee))
+
 ## [2.1.1](https://github.com/LuanRT/Jinter/compare/v2.1.0...v2.1.1) (2024-07-31)
 
 
