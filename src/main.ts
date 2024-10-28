@@ -23,6 +23,7 @@ export default class Jinter {
     this.defineObject('console', console);
     this.defineObject('Math', Math);
     this.defineObject('String', String);
+    this.defineObject('Number', Number);
     this.defineObject('Array', Array);
     this.defineObject('Date', Date);
   }
@@ -65,7 +66,7 @@ export default class Jinter {
   /**
    * Generates an AST from the input.
    */
-  public static parseScript(input: string) {
+  public static parseScript(input: string): import('../acorn.js').ExtendNode<import('estree').Program> {
     try {
       return parse(input, { ecmaVersion: 2020 });
     } catch (e: any) {

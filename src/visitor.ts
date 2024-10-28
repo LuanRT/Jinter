@@ -31,10 +31,10 @@ export default class Visitor {
     if (!node)
       return null;
 
-    const target_node = this.#getNode<T>(node.type);
+    const targetNode = this.#getNode<T>(node.type);
 
-    if (target_node) {
-      const instance = new target_node(node, this);
+    if (targetNode) {
+      const instance = new targetNode(node, this);
       return instance.run();
     }
   }

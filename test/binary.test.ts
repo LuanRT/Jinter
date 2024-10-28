@@ -1,0 +1,34 @@
+import { Jinter } from '../src/index';
+import { expect, test } from 'vitest';
+
+test('Binary Expression', () => {
+  const jinter = new Jinter();
+  expect(jinter.evaluate('1 + 1')).toEqual(2);
+  expect(jinter.evaluate('1 - 1')).toEqual(0);
+  expect(jinter.evaluate('1 * 2')).toEqual(2);
+  expect(jinter.evaluate('1 / 2')).toEqual(0.5);
+  expect(jinter.evaluate('1 % 2')).toEqual(1);
+  expect(jinter.evaluate('1 ** 2')).toEqual(1);
+  expect(jinter.evaluate('1 << 2')).toEqual(4);
+  expect(jinter.evaluate('1 >> 2')).toEqual(0);
+  expect(jinter.evaluate('1 >>> 2')).toEqual(0);
+  expect(jinter.evaluate('1 < 2')).toEqual(true);
+  expect(jinter.evaluate('1 > 2')).toEqual(false);
+  expect(jinter.evaluate('1 <= 2')).toEqual(true);
+  expect(jinter.evaluate('1 >= 2')).toEqual(false);
+  expect(jinter.evaluate('1 == 2')).toEqual(false);
+  expect(jinter.evaluate('1 != 2')).toEqual(true);
+  expect(jinter.evaluate('1 === 2')).toEqual(false);
+  expect(jinter.evaluate('1 !== 2')).toEqual(true);
+  expect(jinter.evaluate('true && false')).toEqual(false);
+  expect(jinter.evaluate('true || false')).toEqual(true);
+  expect(jinter.evaluate('1 & 2')).toEqual(0);
+  expect(jinter.evaluate('1 ^ 2')).toEqual(3);
+  expect(jinter.evaluate('1 | 2')).toEqual(3);
+  expect(jinter.evaluate('1 ?? 2')).toEqual(1);
+  expect(jinter.evaluate('null ?? 2')).toEqual(2);
+  expect(jinter.evaluate('undefined ?? 2')).toEqual(2);
+  expect(jinter.evaluate('3 ?? 2')).toEqual(3);
+  expect(jinter.evaluate('1 in [1, 2]')).toEqual(true);
+  expect(jinter.evaluate('1 instanceof Number')).toEqual(false);
+});

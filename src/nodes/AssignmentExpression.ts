@@ -1,144 +1,65 @@
-import type Visitor from '../visitor.js';
 import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 
-export default class AssignmentExpression extends BaseJSNode<ESTree.AssignmentExpression> {
-  public run() {
-    const operator = this.node.operator;
-    const right_node = this.visitor.visitNode(this.node.right);
+type OperatorFunction = (left: any, right: any) => any;
 
-    switch (operator) {
-      case '=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] = right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          this.visitor.scope.set(this.node.left.name, right_node);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '+=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] += right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) + right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '-=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] -= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) - right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '*=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] *= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) * right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '/=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] /= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) / right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '%=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] %= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) % right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '**=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] **= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) ** right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '<<=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] <<= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) << right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '>>=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] >>= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) >> right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '>>>=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] >>>= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) >>> right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
-      case '&=':
-        if (this.node.left.type === 'MemberExpression') {
-          const obj = this.visitor.visitNode(this.node.left.object);
-          const prop = this.visitor.visitNode(this.node.left.property);
-          return obj[prop] &= right_node;
-        } else if (this.node.left.type === 'Identifier') {
-          const result = this.visitor.visitNode(this.node.left) & right_node;
-          this.visitor.scope.set(this.node.left.name, result);
-          return this.visitor.scope.get(this.node.left.name);
-        }
-        console.warn('Unhandled left node', this.node.left);
-        break;
+export default class AssignmentExpression extends BaseJSNode<ESTree.AssignmentExpression> {
+  private static operatorMap: Record<string, OperatorFunction> = {
+    '=': (_, right) => right,
+    '+=': (left, right) => left + right,
+    '-=': (left, right) => left - right,
+    '*=': (left, right) => left * right,
+    '/=': (left, right) => left / right,
+    '%=': (left, right) => left % right,
+    '**=': (left, right) => left ** right,
+    '<<=': (left, right) => left << right,
+    '>>=': (left, right) => left >> right,
+    '>>>=': (left, right) => left >>> right,
+    '&=': (left, right) => left & right,
+    '^=': (left, right) => left ^ right,
+    '|=': (left, right) => left | right
+  };
+
+  private handleMemberExpression(
+    leftNode: ESTree.MemberExpression,
+    rightValue: any,
+    operation: OperatorFunction
+  ) {
+    const obj = this.visitor.visitNode(leftNode.object);
+    const prop = this.visitor.visitNode(leftNode.property);
+    const currentValue = obj[prop];
+    const newValue = operation(currentValue, rightValue);
+    return (obj[prop] = newValue);
+  }
+
+  private handleIdentifier(
+    leftNode: ESTree.Identifier,
+    rightValue: any,
+    operation: OperatorFunction
+  ) {
+    const currentValue = this.visitor.visitNode(leftNode);
+    const newValue = operation(currentValue, rightValue);
+    this.visitor.scope.set(leftNode.name, newValue);
+    return this.visitor.scope.get(leftNode.name);
+  }
+
+  public run() {
+    const { operator, left, right } = this.node;
+    const rightValue = this.visitor.visitNode(right);
+
+    const operation = AssignmentExpression.operatorMap[operator];
+    if (!operation) {
+      console.warn('Unhandled operator:', operator);
+      return undefined;
     }
+
+    if (left.type === 'MemberExpression') {
+      return this.handleMemberExpression(left, rightValue, operation);
+    } else if (left.type === 'Identifier') {
+      return this.handleIdentifier(left, rightValue, operation);
+    }
+
+    console.warn('Unhandled left node type:', left.type);
+    return undefined;
   }
 }
