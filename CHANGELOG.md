@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/LuanRT/Jinter/compare/jintr-v3.0.2...jintr-v3.1.0) (2024-12-05)
+
+
+### Features
+
+* **nodes:** Add `EmptyStatement` ([c5d3f9d](https://github.com/LuanRT/Jinter/commit/c5d3f9d661d2486a96aa345cca85dc23104d73b3))
+
 ## [3.0.2](https://github.com/LuanRT/Jinter/compare/jintr-v3.0.1...jintr-v3.0.2) (2024-10-28)
 
 
