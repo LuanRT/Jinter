@@ -8,6 +8,7 @@ export { default as BreakStatement } from './BreakStatement.js';
 export { default as CallExpression } from './CallExpression.js';
 export { default as ConditionalExpression } from './ConditionalExpression.js';
 export { default as ContinueStatement } from './ContinueStatement.js';
+export { default as EmptyStatement } from './EmptyStatement.js';
 export { default as ExpressionStatement } from './ExpressionStatement.js';
 export { default as ForOfStatement } from './ForOfStatement.js';
 export { default as ForStatement } from './ForStatement.js';
