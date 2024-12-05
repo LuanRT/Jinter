@@ -1,6 +1,6 @@
 {
   "name": "@luanrt/jintr",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "exports": "./src/index.ts",
   "imports": {
     "estree": "npm:@types/estree@^1.0.6",
