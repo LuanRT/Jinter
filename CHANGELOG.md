@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/LuanRT/Jinter/compare/jintr-v3.1.0...jintr-v3.2.0) (2024-12-12)
+
+
+### Features
+
+* better error messages ([eda0044](https://github.com/LuanRT/Jinter/commit/eda0044df4e246b31574671314a91fb5d35f18e4))
+
 ## [3.1.0](https://github.com/LuanRT/Jinter/compare/jintr-v3.0.2...jintr-v3.1.0) (2024-12-05)
 
 
