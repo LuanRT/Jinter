@@ -44,7 +44,8 @@ export default class Jinter {
           return '__continue_exec';
 
         return callable.apply(obj, args);
-      } return '__continue_exec';
+      }
+      return '__continue_exec';
     });
   }
 
@@ -53,12 +54,8 @@ export default class Jinter {
    * @returns The result of the last statement in the program.
    */
   public evaluate(input: string): any {
-    try {
-      const program = parse(input, { ecmaVersion: 2020 }) as ExtendNode<ESTree.Program>;
-      this.#ast = program.body;
-    } catch (e: any) {
-      throw new JinterError(e.message);
-    }
+    const program = Jinter.parseScript(input);
+    this.#ast = program.body;
 
     this.visitor.setAST(this.#ast);
 
@@ -72,7 +69,17 @@ export default class Jinter {
     try {
       return parse(input, { ecmaVersion: 2020 }) as ExtendNode<ESTree.Program>;
     } catch (e: any) {
-      throw new JinterError(e.message);
+      const match = e.message.match(/\((\d+):(\d+)\)/);
+      if (match) {
+        const line = parseInt(match[1], 10);
+        const column = parseInt(match[2], 10);
+        const lines = input.split('\n');
+        const errorLine = lines[line - 1];
+        const snippet = errorLine ? errorLine.substring(Math.max(0, column - 10), column + 10) : '';
+        throw new JinterError(`${e.message.replace(/\(.*\)/, '').trim()} at line ${line}, column ${column}: ${snippet}`, { errorLine });
+      } else {
+        throw new JinterError(e.message);
+      }
     }
   }
 }
