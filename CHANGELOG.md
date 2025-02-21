@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/LuanRT/Jinter/compare/jintr-v3.2.0...jintr-v3.2.1) (2025-02-21)
+
+
+### Bug Fixes
+
+* **statements:** Use prefixed strings to avoid internal conflicts ([#29](https://github.com/LuanRT/Jinter/issues/29)) ([dfeed9b](https://github.com/LuanRT/Jinter/commit/dfeed9b7776bc8ddacc919c8f3c6cee80cd99392))
+
 ## [3.2.0](https://github.com/LuanRT/Jinter/compare/jintr-v3.1.0...jintr-v3.2.0) (2024-12-12)
 
 
