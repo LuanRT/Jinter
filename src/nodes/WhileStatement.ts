@@ -6,10 +6,10 @@ export default class WhileStatement extends BaseJSNode<ESTree.WhileStatement> {
     while (this.visitor.visitNode(this.node.test)) {
       const body = this.visitor.visitNode(this.node.body);
 
-      if (body === 'break')
+      if (body === '$jintr_break_')
         break;
 
-      if (body === 'continue')
+      if (body === '$jintr_continue_')
         continue;
 
       if (body)

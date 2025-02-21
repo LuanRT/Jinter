@@ -16,12 +16,12 @@ export default class SwitchStatement extends BaseJSNode<ESTree.SwitchStatement> 
         const result = this.visitor.visitNode(_case);
 
         // If it's a break then stop here.
-        if (result === 'break') {
+        if (result === '$jintr_break_') {
           break;
         }
 
         // Switch statements do not support continue, but it can be used when inside a while/for loop.
-        if (result === 'continue') {
+        if (result === '$jintr_continue_') {
           return result;
         }
 

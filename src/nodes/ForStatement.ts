@@ -22,11 +22,11 @@ export default class ForStatement extends BaseJSNode<ESTree.ForStatement> {
 
       const body = this.visitor.visitNode(this.node.body);
 
-      if (body === 'continue') {
+      if (body === '$jintr_continue_') {
         continue;
       }
 
-      if (body === 'break') {
+      if (body === '$jintr_break_') {
         break;
       }
 
