@@ -20,11 +20,11 @@ export default class ForOfStatement extends BaseJSNode<ESTree.ForOfStatement> {
 
       const body = this.visitor.visitNode(this.node.body);
 
-      if (body === 'break') {
+      if (body === '$jintr_break_') {
         break;
       }
 
-      if (body === 'continue') {
+      if (body === '$jintr_continue_') {
         continue;
       }
 

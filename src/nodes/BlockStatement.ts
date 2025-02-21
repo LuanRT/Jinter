@@ -9,7 +9,7 @@ export default class BlockStatement extends BaseJSNode<ESTree.BlockStatement> {
       if (stmt.type === 'ReturnStatement')
         return result;
 
-      if (result === 'break' || result === 'continue')
+      if (result === '$jintr_break_' || result === '$jintr_continue_')
         return result;
 
       if (
