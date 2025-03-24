@@ -1,5 +1,5 @@
 import Visitor from './visitor.js';
-import { parse } from 'acorn';
+import acorn, { parse } from 'acorn';
 import { ExtendNode, JinterError } from './utils/index.js';
 
 import type ESTree from 'estree';
@@ -65,9 +65,9 @@ export default class Jinter {
   /**
    * Generates an AST from the input.
    */
-  public static parseScript(input: string): ExtendNode<ESTree.Program> {
+  public static parseScript(input: string, options?: acorn.Options): ExtendNode<ESTree.Program> {
     try {
-      return parse(input, { ecmaVersion: 2020 }) as ExtendNode<ESTree.Program>;
+      return parse(input, { ecmaVersion: 2020, ...(options || {}) }) as ExtendNode<ESTree.Program>;
     } catch (e: any) {
       const match = e.message.match(/\((\d+):(\d+)\)/);
       if (match) {
