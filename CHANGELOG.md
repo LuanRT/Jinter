@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/LuanRT/Jinter/compare/jintr-v3.2.1...jintr-v3.3.0) (2025-03-24)
+
+
+### Features
+
+* Allow custom options in `parseScript` method ([16bf448](https://github.com/LuanRT/Jinter/commit/16bf448c92555de66317c42d511969eab3b3da33))
+
 ## [3.2.1](https://github.com/LuanRT/Jinter/compare/jintr-v3.2.0...jintr-v3.2.1) (2025-02-21)
 
 
