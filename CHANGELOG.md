@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/LuanRT/Jinter/compare/jintr-v3.3.0...jintr-v3.3.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* **CallExpression:** Properly parse computed properties in call expressions ([4d6c8d1](https://github.com/LuanRT/Jinter/commit/4d6c8d14923ba633cb83b552579dd8eabe631af1))
+
 ## [3.3.0](https://github.com/LuanRT/Jinter/compare/jintr-v3.2.1...jintr-v3.3.0) (2025-03-24)
 
 
