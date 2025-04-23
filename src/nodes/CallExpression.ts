@@ -59,7 +59,7 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
       const prop = this.node.callee.computed ? this.visitor.visitNode(this.node.callee.property) : this.visitor.getName(this.node.callee.property);
       const args = this.node.arguments.map((arg) => this.visitor.visitNode(arg));
 
-      if (this.node.callee.type === 'MemberExpression' && prop in builtins) {
+      if (prop in builtins) {
         return builtins[prop](args, obj, this.visitor);
       }
 
