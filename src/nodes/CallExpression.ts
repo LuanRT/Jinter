@@ -3,6 +3,29 @@ import type ESTree from 'estree';
 import BaseJSNode from './BaseJSNode.js';
 import { JinterError } from '../utils/index.js';
 
+const builtins: { [key: string]: any } = {
+  // Override the forEach method so that the "this" arg is set correctly
+  forEach: (args: any[], target: any, visitor: Visitor) => {
+    const arr = target;
+
+    // Set forEach's “this” arg
+    if (args.length > 1) {
+      visitor.scope.set('_this', args.slice(-1)[0]);
+    }
+
+    // Execute callback function
+    let index = 0;
+
+    for (const element of arr) {
+      args[0]([ element, index++, arr ]);
+    }
+  },
+  // Also override the toString method so that it stringifies the correct object
+  toString: (_args: any[], target: any) => {
+    return target.toString();
+  }
+};
+
 export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
   public run(): any {
     let exp_object: string | undefined;
@@ -32,13 +55,13 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
     }
 
     if (this.node.callee.type === 'MemberExpression') {
-      if (Builtins.has(this.node, this.visitor)) {
-        return Builtins.execute(this.node, this.visitor);
-      }
-
       const obj = this.visitor.visitNode(this.node.callee.object);
       const prop = this.node.callee.computed ? this.visitor.visitNode(this.node.callee.property) : this.visitor.getName(this.node.callee.property);
       const args = this.node.arguments.map((arg) => this.visitor.visitNode(arg));
+
+      if (this.node.callee.type === 'MemberExpression' && prop in builtins) {
+        return builtins[prop](args, obj, this.visitor);
+      }
 
       if (!obj)
         this.#throwError();
@@ -99,51 +122,5 @@ export default class CallExpression extends BaseJSNode<ESTree.CallExpression> {
       return `${object_string}${property_string}`;
     }
     return '<unknown>';
-  }
-}
-
-class Builtins {
-  static builtins: { [key: string]: any } = {
-    // Override the forEach method so that the "this" arg is set correctly
-    forEach: (node: ESTree.CallExpression, visitor: Visitor) => {
-      const args = node.arguments.map((arg) => visitor.visitNode(arg));
-
-      if (node.callee.type === 'MemberExpression') {
-        const arr = visitor.visitNode(node.callee.object);
-
-        // Set forEach's “this” arg
-        if (args.length > 1) {
-          visitor.scope.set('_this', args.slice(-1)[0]);
-        }
-
-        // Execute callback function
-        let index = 0;
-
-        for (const element of arr) {
-          args[0]([ element, index++, arr ]);
-        }
-      } else {
-        console.warn('Unhandled callee type:', node.callee.type);
-      }
-    },
-    // Also override the toString method so that it stringifies the correct object
-    toString: (node: ESTree.CallExpression, visitor: Visitor) => {
-      if (node.callee.type === 'MemberExpression') {
-        return visitor.visitNode(node.callee.object).toString();
-      }
-    }
-  };
-
-  static has(node: ESTree.CallExpression, visitor: Visitor): boolean {
-    if (node.callee.type === 'MemberExpression') {
-      return !!this.builtins?.[visitor.getName(node.callee.property) || ''];
-    }
-    return false;
-  }
-
-  static execute(node: ESTree.CallExpression, visitor: Visitor) {
-    if (node.callee.type === 'MemberExpression') {
-      return this.builtins[visitor.getName(node.callee.property) || ''](node, visitor);
-    }
   }
 }
